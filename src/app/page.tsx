@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Profile from "@/components/Profile";
 import LinkCardList from "@/components/LinkCardList";
 
@@ -5,6 +6,23 @@ const profile = {
   name: "이민우",
   bio: "대학생 : 요즘에 AI 개발에 관심이 많아요",
   imageUrl: "https://placehold.co/150x150/orange/white",
+};
+
+export const metadata: Metadata = {
+  title: `${profile.name} | 링크나무`,
+  description: profile.bio,
+  openGraph: {
+    title: profile.name,
+    description: profile.bio,
+    images: [{ url: profile.imageUrl }],
+    type: "profile",
+  },
+  twitter: {
+    card: "summary",
+    title: profile.name,
+    description: profile.bio,
+    images: [profile.imageUrl],
+  },
 };
 
 const links = [
