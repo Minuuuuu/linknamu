@@ -20,4 +20,10 @@ export const papers: PaperItem[] = [
     title: "CollabLLM: 능동적으로 되묻는 AI",
     file: "/papers/day2-collabllm.html",
   },
+  {
+    day: 3,
+    conference: "ICLR",
+    title: "Adam: A Method for Stochastic Optimization",
+    file: "/papers/day3-adam.html",
+  },
 ];

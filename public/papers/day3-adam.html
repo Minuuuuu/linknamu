@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 3 · ICLR · 2026.09.16</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">모든 파라미터에게<br>자기만의 속도를 주다</h1>
+      <p class="subline">Adam: A Method for Stochastic Optimization · Kingma &amp; Ba, ICLR 2015</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">ICLR '15</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★☆☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">최적화·학습</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">약 10만+ 인용</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      Day 1이 "AI가 문장을 어떻게 이해하는가", Day 2가 "AI가 대화를 어떻게 더 잘하는가"였다면, 오늘은 <strong>"AI는 애초에 어떻게 학습하는가"</strong>입니다. 지금 이 순간에도 거의 모든 딥러닝 모델이 기본값으로 쓰고 있는 학습 알고리즘, Adam 이야기입니다.
+      <span class="mark">PL·03</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>기존 경사하강법(SGD)은 모든 파라미터에 <b>똑같은 학습 속도</b>를 적용해서, 어떤 방향은 너무 빨리 흔들리고 어떤 방향은 너무 느리게 움직여 학습이 불안정하거나 오래 걸렸다.</li>
+        <li>Adam은 파라미터마다 <b>"최근 얼마나 꾸준히 같은 방향으로 움직였는지"(모멘텀)</b>와 <b>"그 방향이 얼마나 들쑥날쑥했는지"(기울기 변동성)</b>를 따로 기억해, 파라미터별로 걸음 속도를 자동 조절한다.</li>
+        <li>튜닝 부담 없이도 빠르고 안정적으로 수렴해, 사실상 <b>모든 딥러닝 프레임워크의 기본 옵티마이저</b>로 자리잡을 만큼 실무에 큰 영향을 줬다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>딥러닝 모델을 학습시키는 과정은 <b>눈을 감고 산에서 가장 낮은 골짜기(오차가 최소인 지점)를 찾아 내려가는 것</b>에 비유할 수 있습니다. 그런데 기존 방식인 SGD는 어느 방향이든 똑같은 보폭으로 내려갑니다. 완만한 방향에서는 답답할 만큼 느리고, 가파르고 울퉁불퉁한 방향에서는 보폭이 너무 커서 자꾸 미끄러지거나 튕겨 나갑니다.</p>
+        <p>Adam의 해법은 <b>각 방향(파라미터)마다 개인 내비게이션을 하나씩 붙여주는 것</b>입니다. 첫 번째로 "최근에 어느 쪽으로 얼마나 꾸준히 이동했는지"를 관성처럼 기억하고(모멘텀), 두 번째로 "그 방향이 그동안 얼마나 요동쳤는지"를 함께 기억합니다(기울기 제곱의 이동평균). 이 두 정보를 조합하면, 꾸준하고 완만한 길에서는 성큼성큼 걷고 요동이 심한 길에서는 조심조심 걷는 식으로 <b>파라미터마다 다른 보폭</b>을 자동으로 정해줄 수 있습니다.</p>
+        <p>Kingma와 Ba는 2014년 말 arXiv에 이 방법을 공개했고 2015년 ICLR에서 정식 발표했습니다. 로지스틱 회귀부터 합성곱 신경망까지 여러 실험에서 기존 옵티마이저(SGD, AdaGrad, RMSProp)보다 더 빠르고 안정적으로 손실이 줄어드는 것을 보였고, 이후 학습률을 세심하게 튜닝하지 않아도 "일단 Adam을 쓰면 웬만큼 잘 된다"는 사실상의 표준으로 굳어졌습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·개념</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: 경사하강법(Gradient Descent)과 모멘텀(Momentum)의 기본 개념, 그리고 AdaGrad·RMSProp 같은 "파라미터마다 학습률을 다르게 주는" 적응형 학습률 아이디어를 알면 Adam이 이 둘을 합친 방식이라는 게 쉽게 와닿습니다.</li>
+        <li><b>다음 스텝</b>: 이후 등장해 요즘 대형 모델 학습에 더 널리 쓰이는 <b>AdamW</b>(가중치 감쇠를 분리해 개선한 버전), 그리고 함께 쓰이는 경우가 많은 <b>Batch Normalization</b>을 이어서 보면 좋습니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>PyTorch·TensorFlow 등 <b>거의 모든 딥러닝 프레임워크의 기본 옵티마이저</b>로 채택돼, 트랜스포머·GAN·강화학습 등 분야를 가리지 않고 쓰이는 범용 표준이 됐습니다.</li>
+        <li>학습률을 세심하게 튜닝하지 않아도 웬만큼 안정적으로 수렴해서, 연구자들이 옵티마이저 걱정 대신 <b>모델 구조와 데이터</b>에 더 집중할 수 있게 만들어줬습니다.</li>
+        <li>이후 나온 수많은 옵티마이저 연구(AdamW, RAdam, LAMB 등)의 <b>출발점이자 비교 기준선</b>이 되어, 지금도 새 옵티마이저는 "Adam보다 나은가"로 평가받습니다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>
