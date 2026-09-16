@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  /* header */
+  .top-meta{
+    display:flex;
+    justify-content:flex-end;
+  }
+  .top-meta span{
+    font-size:11px;
+    color:var(--ink-soft);
+    letter-spacing:0.02em;
+  }
+
+  .brand-block{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .brand-name{
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.28em;
+    color:var(--accent-deep);
+    text-transform:uppercase;
+  }
+  .headline{
+    font-size:27px;
+    font-weight:800;
+    line-height:1.32;
+    color:var(--accent);
+    text-wrap:balance;
+    margin:0;
+  }
+  .subline{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:0;
+  }
+
+  /* metric box */
+  .metric-box{
+    background:var(--accent-tint);
+    border-radius:14px;
+    padding:18px 12px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+    text-align:center;
+  }
+  .metric{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .metric .label{
+    font-size:10.5px;
+    color:var(--ink-soft);
+    letter-spacing:0.02em;
+  }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace;
+    font-variant-numeric:tabular-nums;
+    font-size:14px;
+    font-weight:700;
+    color:var(--accent-deep);
+  }
+
+  /* intro */
+  .intro{
+    position:relative;
+    font-size:14.5px;
+    line-height:1.7;
+    color:var(--ink);
+    padding-bottom:14px;
+  }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute;
+    right:0;
+    bottom:0;
+    font-size:10px;
+    font-weight:700;
+    color:var(--ink-faint);
+    letter-spacing:0.1em;
+  }
+
+  /* summary box */
+  .summary-box{
+    border:1.5px dashed var(--line);
+    border-radius:14px;
+    padding:18px 18px 16px;
+  }
+  .summary-head{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:14px;
+    font-weight:700;
+    color:var(--accent-deep);
+    margin-bottom:12px;
+  }
+  .summary-box ol{
+    margin:0;
+    padding-left:18px;
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+  .summary-box li{
+    font-size:13.5px;
+    line-height:1.6;
+    color:var(--ink);
+  }
+  .summary-box b{ color:var(--accent-deep); }
+
+  /* section with pill header */
+  .section{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .pill{
+    align-self:center;
+    background:var(--accent);
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    padding:8px 20px;
+    border-radius:999px;
+    letter-spacing:0.01em;
+  }
+  .section-body{
+    font-size:13.5px;
+    line-height:1.75;
+    color:var(--ink);
+  }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  /* sub sections (schedule / hot issue) */
+  .subsec-title{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--ink);
+    background:var(--accent-tint);
+    padding:9px 12px;
+    border-radius:8px;
+  }
+  .bullets{
+    margin:2px 0 0;
+    padding-left:18px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .bullets li{
+    font-size:13.5px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center;
+    font-size:10.5px;
+    color:var(--ink-faint);
+    letter-spacing:0.04em;
+    padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 1 · NeurIPS · 2026.09.16</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">당신에게 필요한 건<br>어텐션뿐이었다</h1>
+      <p class="subline">Attention Is All You Need · Vaswani et al., 2017</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">NeurIPS '17</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★★☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">Transformer</span>
+      </div>
+      <div class="metric">
+        <span class="label">인용수</span>
+        <span class="value">10만+</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      페이퍼레터 첫 회차는 고민할 필요가 없었습니다. 지금 우리가 매일 쓰는 <strong>ChatGPT, GPT 계열, BERT</strong> 심지어 이미지·음성 모델까지, 현대 AI 거의 전부의 조상이 이 한 편이기 때문입니다. 오늘은 "왜 굳이 순서대로 계산하는 RNN을 버리고 어텐션만으로 문장을 이해했는가"를 쉽게 풀어드립니다.
+      <span class="mark">PL·01</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>기존 번역·언어모델(RNN, LSTM)은 문장을 <b>왼쪽부터 한 단어씩 순서대로</b> 처리해서 느리고, 문장이 길어지면 앞부분 정보를 잊어버렸다.</li>
+        <li>저자들은 순서 계산을 없애고 <b>Self-Attention</b>만으로 문장 속 모든 단어가 서로를 동시에 참고하게 만든 <b>Transformer</b> 구조를 제안했다.</li>
+        <li>속도와 성능을 동시에 잡으면서, 이후 등장한 <b>BERT·GPT·이미지생성모델</b> 등 거의 모든 최신 AI의 기본 설계도가 되었다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>문장을 이해한다는 건 결국 "이 단어가 다른 어떤 단어와 관련 있는가"를 파악하는 일입니다. 예를 들어 "그 동물은 너무 지쳐서 <b>길을</b> 건너지 못했다"에서 '그것'이 가리키는 게 '동물'인지 '길'인지 알아내는 건 사람에게도 쉽지 않죠.</p>
+        <p>기존 RNN 계열은 이걸 왼쪽부터 순서대로 읽으며 기억에 의존해 풀었습니다. 마치 <b>전화 릴레이 게임</b>처럼, 단어를 하나씩 옆 사람에게 속삭여 전달하다 보니 문장이 길어지면 앞쪽 정보가 흐릿해졌습니다.</p>
+        <p>Transformer의 아이디어는 릴레이를 없애고, <b>모든 단어가 회의 테이블에 동시에 둘러앉아</b> 서로에게 "너 나랑 관련 있어?"라고 직접 묻고 점수를 매기는 방식입니다. 이게 바로 <b>Self-Attention</b>입니다. 게다가 이 질문을 한 번이 아니라 여러 관점(문법 관계, 의미 관계 등)으로 동시에 던지는데, 이를 <b>Multi-Head Attention</b>이라 부릅니다. 순서 정보가 사라진 대신, 단어마다 "나는 몇 번째 단어야"라는 좌표값(Positional Encoding)을 살짝 더해줘서 순서 감각을 보완했습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·개념</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: RNN/LSTM이 왜 순서대로 계산하는지, Encoder-Decoder 구조가 무엇인지 알면 이 논문의 문제의식이 더 와닿습니다.</li>
+        <li><b>다음 스텝</b>: <b>BERT</b>(Transformer의 Encoder만 떼어 양방향으로 학습), <b>GPT 초기 논문</b>(Decoder만 떼어 다음 단어 예측)으로 이어서 보면 좋습니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li><b>병렬 계산</b>이 가능해지면서 GPU로 훨씬 큰 모델을 훨씬 빠르게 학습시킬 수 있게 됐고, 이는 이후 대규모 언어모델(LLM) 시대를 여는 전제 조건이 되었습니다.</li>
+        <li>번역·요약 같은 텍스트 작업을 넘어 이미지(ViT), 음성, 단백질 구조 예측(AlphaFold 계열)까지, 서로 다른 분야가 <b>같은 구조를 공유</b>하는 계기를 만들었습니다.</li>
+        <li>지금 화제가 되는 거의 모든 최신 논문(효율적인 어텐션, 긴 문맥 처리 등)이 사실은 이 논문이 만든 구조의 <b>한계를 개선하려는 시도</b>라는 점에서, 오늘의 최신 트렌드를 이해하는 기준점이 됩니다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>

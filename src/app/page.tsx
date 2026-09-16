@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Profile from "@/components/Profile";
 import LinkCardList from "@/components/LinkCardList";
+import AiStudySection from "@/components/AiStudySection";
 
 const profile = {
   name: "이민우",
@@ -37,6 +38,7 @@ export default function Home() {
       <main className="flex w-full max-w-sm flex-col items-center gap-12">
         <Profile name={profile.name} bio={profile.bio} imageUrl={profile.imageUrl} />
         <LinkCardList links={links} />
+        <AiStudySection />
       </main>
     </div>
   );
