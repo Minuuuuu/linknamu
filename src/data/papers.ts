@@ -26,4 +26,10 @@ export const papers: PaperItem[] = [
     title: "Adam: A Method for Stochastic Optimization",
     file: "/papers/day3-adam.html",
   },
+  {
+    day: 4,
+    conference: "NeurIPS",
+    title: "Gated Attention for Large Language Models: Non-linearity, Sparsity, and Attention-Sink-Free",
+    file: "/papers/day4-gated-attention.html",
+  },
 ];

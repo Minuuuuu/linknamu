@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 4</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 4 · NeurIPS · 2026.09.17</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">모든 토큰이 한곳만 보던 버릇,<br>문 하나로 고쳤다</h1>
+      <p class="subline">Gated Attention for Large Language Models: Non-linearity, Sparsity, and Attention-Sink-Free · Qiu et al. (Alibaba Qwen), NeurIPS 2025 Best Paper</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">NeurIPS '25</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★★☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">어텐션·아키텍처</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">Best Paper·따끈따끈</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      Day 1의 <strong>어텐션</strong>, Day 3의 <strong>옵티마이저</strong>에 이어, 오늘은 그 어텐션을 살짝 고쳐서 2025년 가장 화제가 된 논문 중 하나가 된 이야기입니다. 구조는 거의 안 바꾸고 <strong>문(게이트) 하나</strong>만 달았을 뿐인데, NeurIPS 2025 최우수 논문상을 받았고 알리바바의 실제 최신 모델에도 그대로 채택됐습니다.
+      <span class="mark">PL·04</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>트랜스포머의 어텐션은 본질적으로 여러 값을 <b>가중합만 하는 선형적인 계산</b>이라 표현력에 한계가 있고, 특히 몇몇 토큰(주로 문장 맨 앞)에 어텐션이 쏠려버리는 <b>어텐션 싱크</b> 현상이 학습을 불안정하게 만들었다.</li>
+        <li>연구팀은 어텐션 결과값에 <b>헤드마다 따로 작동하는 시그모이드 게이트</b>를 하나 곱해주는 것만으로 비선형성과 희소성을 더하고 어텐션 싱크를 없앨 수 있음을 보였다.</li>
+        <li>구조를 거의 바꾸지 않는 값싼 개선인데도 더 큰 학습률을 견디고 스케일이 커질수록 이득이 커져서, 알리바바의 <b>Qwen3-Next</b> 계열 모델에 실제로 채택됐다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>어텐션을 <b>회의에서 모든 발언을 듣고 결론을 종합하는 사회자</b>라고 생각해봅시다. 그런데 이 사회자에게는 이상한 버릇이 있습니다. 내용과 상관없이 유독 <b>맨 처음 발언한 사람</b>에게만 시선이 쏠려버리는 겁니다(어텐션 싱크). 게다가 결론을 내는 방식도 각 발언에 가중치를 곱해 더하는 게 전부라, 사회자가 할 수 있는 판단이 생각보다 단조롭습니다(선형성의 한계).</p>
+        <p>이 논문의 해법은 아주 소박합니다. 사회자가 최종 결론을 말하기 직전에, <b>회의 트랙(어텐션 헤드)마다 작은 밸브 하나</b>를 달아주는 겁니다. 이 밸브는 시그모이드 함수로 0에서 1 사이 값을 내는데, 이번 발언 내용이 뭐였는지에 따라 열림 정도가 달라집니다(query-dependent). 그 결과 불필요한 정보는 확 걸러지고(희소성), 결론을 내리는 방식 자체에도 비선형적인 판단이 더해집니다.</p>
+        <p>연구팀은 이 게이트 하나만 추가해도 어텐션 싱크 현상이 사라지고, 학습률을 더 크게 줘도 안정적이며, 모델을 키울수록 이득이 커진다는 것을 실험으로 보였습니다. 그리고 이 아이디어를 이론에만 머물게 하지 않고, 실제로 알리바바의 <b>Qwen3-Next-80B-A3B-Instruct</b> 모델 아키텍처에 반영해서 약 100만 토큰 규모의 긴 문맥에서도 안정적으로 작동함을 보여줬습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: Day 1의 <b>Attention Is All You Need</b>에서 소개된 스케일드 닷프로덕트 어텐션 구조를 알아야, 이 논문이 정확히 어디에 게이트를 하나 추가했는지 감이 잡힙니다. 문장 맨 앞 토큰에 어텐션이 몰리는 <b>어텐션 싱크</b> 현상에 대한 배경 지식이 있으면 문제의식이 더 와닿습니다.</li>
+        <li><b>다음 스텝</b>: 이 게이팅 아이디어가 실제로 반영된 <b>Qwen3-Next</b> 아키텍처 리포트, 그리고 비슷한 시기 함께 주목받은 sparse mixture-of-experts 기반 하이브리드 아키텍처들을 이어서 보면 좋습니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>NeurIPS 2025에서 4편의 Best Paper 중 하나로 선정될 만큼, <b>단순하지만 임팩트 있는 개선</b>으로 학계의 인정을 받았습니다.</li>
+        <li>이론적 제안에서 그치지 않고 알리바바의 실제 프로덕션 모델(Qwen3-Next-80B-A3B-Instruct)에 곧바로 채택되어, <b>연구와 실무 사이의 거리가 얼마나 가까워졌는지</b> 보여주는 사례가 됐습니다.</li>
+        <li>모델 구조를 크게 바꾸지 않고도 값싸게 붙일 수 있는 개선이라, 앞으로 다른 대형 모델들도 비슷한 게이팅 방식을 검토하는 흐름을 만들 가능성이 큽니다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>
