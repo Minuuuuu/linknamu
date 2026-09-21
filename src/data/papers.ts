@@ -38,4 +38,10 @@ export const papers: PaperItem[] = [
     title: "Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift",
     file: "/papers/day5-batchnorm.html",
   },
+  {
+    day: 6,
+    conference: "ICLR",
+    title: "LLMs Get Lost In Multi-Turn Conversation",
+    file: "/papers/day6-multiturn.html",
+  },
 ];

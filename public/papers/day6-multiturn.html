@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 6 · ICLR · 2026.09.21</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">한 번에 말하면 척척,<br>나눠 말하면 AI는 길을 잃는다</h1>
+      <p class="subline">LLMs Get Lost In Multi-Turn Conversation · Laban, Hayashi, Zhou, Neville · ICLR 2026 (Best Paper)</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">ICLR '26</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★☆☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">LLM 평가·대화형 AI</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">평균 39%↓ 정확도</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      오늘부터는 ICLR 차례에 <strong>"요즘 화제가 된 논문"</strong>을 소개합니다. 그 첫 타자는 2026년 4월 ICLR에서 Best Paper로 선정된 논문인데, 주제가 꽤 뜨끔합니다. 우리가 챗봇에게 "아, 근데 이것도 추가로 해줘"라고 하나씩 덧붙여 말할 때마다, AI 성능이 조용히 무너지고 있었다는 이야기입니다.
+      <span class="mark">PL·06</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>기존 LLM 벤치마크는 사람이 지시문을 <b>한 번에 완벽하게 정리해서 주는 상황</b>만 측정해왔지만, 실제 대화에서는 사람들이 요구사항을 여러 턴에 나눠서 조금씩 덧붙인다.</li>
+        <li>연구팀은 완결된 지시문을 여러 조각으로 쪼개 대화 턴마다 하나씩 공개하는 <b>샤딩(sharding)</b> 기법으로 20만 건 넘는 대화를 시뮬레이션했고, 거의 모든 최상위 모델이 멀티턴에서 <b>평균 39% 낮은 성능</b>을 보였다.</li>
+        <li>원인은 모델의 능력 부족보다 <b>이른 턴에서 성급하게 내린 가정에 집착하는 불안정성</b>이었고, 이는 챗봇 평가 방식과 프롬프트 작성 습관 모두에 실질적인 변화를 요구한다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>사람한테 일을 맡길 때를 떠올려봅시다. <b>처음부터 요구사항을 빠짐없이 정리해서 한 번에 전달</b>하는 경우도 있지만, 실제로는 "일단 이렇게 해줘" 하고 시작한 뒤 "아 맞다, 이 조건도 있었어" 하며 하나씩 덧붙이는 경우가 훨씬 흔합니다. 그런데 그동안 LLM 성능을 재던 벤치마크 대부분은 전자, 즉 완벽하게 정리된 지시문만 가정하고 있었습니다. 이 논문은 "그럼 후자, 실제 우리가 쓰는 방식대로 대화를 나누면 어떻게 될까?"를 정면으로 파헤쳤습니다.</p>
+        <p>방법은 <b>샤딩</b>이라는 아이디어입니다. 원래 하나로 완결된 지시문을 여러 조각(샤드)으로 잘게 쪼개서, 첫 조각에는 큰 방향만 주고 이후 조각들은 조건을 한 턴씩 추가로 공개하는 식으로 대화를 재구성한 겁니다. 이렇게 여섯 가지 생성형 과제에 걸쳐 20만 건이 넘는 대화를 시뮬레이션한 결과, 공개·비공개 모델을 가리지 않고 대부분의 상위권 LLM이 한 번에 지시받았을 때보다 <b>평균 39%나 낮은 성능</b>을 보였습니다.</p>
+        <p>더 흥미로운 건 원인 분석입니다. 성능 하락을 뜯어보니 모델이 <b>원래 잘 못 푸는 문제가 된 것(능력 저하)</b>은 일부였고, 훨씬 큰 비중은 <b>같은 문제를 여러 번 풀어도 결과가 들쭉날쭉해지는 불안정성</b>이었습니다. 모델들이 대화 초반에 성급하게 "이런 뜻이겠지" 하고 가정하거나 섣불리 답을 완성해버린 뒤, 뒤에 새로운 조건이 나와도 그 초반 가정에 계속 얽매이는 경향을 보인 겁니다. 한마디로, AI가 "일단 찍고 보자"는 습관을 못 버리고 있다는 뜻이죠.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: Day 1의 <b>Attention Is All You Need</b>에서 다룬 트랜스포머 구조를 알아두면, 모델이 이전 턴의 맥락을 어떻게 참조하는지 이해하는 데 도움이 됩니다.</li>
+        <li><b>다음 스텝</b>: 이 논문이 지적한 멀티턴 격차를 모델 스스로 학습을 통해 줄여보려 한 후속 연구 <b>"Found in Conversation"</b>을 이어서 보면, 문제 제기에서 해결 시도까지 흐름을 따라갈 수 있습니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>단일 턴 지시문으로만 모델을 채점해온 기존 벤치마크의 <b>한계를 구체적 수치로 드러내</b>, 이후 멀티턴 시뮬레이션을 포함한 평가 방식이 주목받는 계기가 됐습니다.</li>
+        <li>"대화가 꼬이면 새 대화를 시작하라", "가능하면 필요한 정보를 한 번에 모아서 전달하라" 같은 <b>실무적인 프롬프트 사용 팁</b>을 사용자에게 제시했습니다.</li>
+        <li>챗봇·에이전트의 <b>멀티턴 신뢰성을 개선하려는 후속 연구</b>들을 촉발해, 실제 서비스 환경에 더 가까운 AI 평가·학습 방향으로 흐름을 넓혔습니다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>
