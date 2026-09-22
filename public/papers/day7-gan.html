@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 7</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 7 · NeurIPS · 2026.09.22</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">위조범과 감별사를 맞붙였더니,<br>AI가 그림을 그리기 시작했다</h1>
+      <p class="subline">Generative Adversarial Networks · Goodfellow, Pouget-Abadie, Mirza, Xu, Warde-Farley, Ozair, Courville, Bengio · NeurIPS 2014</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">NeurIPS '14</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★★☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">생성모델·딥러닝</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">약 4만회+ 인용</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      다시 '기초' 논문 차례입니다. 2014년 NeurIPS에서 발표된 이 논문은 신경망 두 개를 서로 경쟁시킨다는, 지금 보면 간단해 보이지만 당시엔 파격적이었던 아이디어 하나로 이미지 생성 AI의 흐름을 통째로 바꿔놓았습니다. 오늘날 그림 그리는 AI들의 뿌리를 거슬러 올라가면 꼭 만나게 되는 논문입니다.
+      <span class="mark">PL·07</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>신경망이 그럴듯한 새 이미지를 스스로 만들어내는 건 오랫동안 어려운 문제였고, 기존 생성 모델들은 결과물이 흐릿하거나 부자연스러웠다.</li>
+        <li>저자들은 가짜를 만드는 <b>생성자(Generator)</b>와 진짜·가짜를 구별하는 <b>감별자(Discriminator)</b>, 두 신경망을 서로 경쟁시켜 함께 학습시키는 <b>적대적 학습(Adversarial Training)</b> 구조를 제안했다.</li>
+        <li>이 아이디어는 이후 10년 가까이 이미지·영상 생성 AI 연구의 표준 틀로 자리 잡으며, 지금의 생성형 AI 붐을 만든 초기 씨앗 중 하나로 꼽힌다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>위조지폐범과 그를 잡으려는 감별사를 한 방에 넣어뒀다고 상상해봅시다. 위조범은 처음엔 엉성한 가짜 지폐를 만들지만, 감별사가 "이건 가짜야"라고 매번 지적해주니 점점 더 진짜 같은 지폐를 만들게 됩니다. 반대로 감별사도 점점 정교해지는 가짜를 계속 마주치면서 감별 실력이 늘어납니다. 이 논문이 제안한 <b>GAN(Generative Adversarial Network)</b>이 정확히 이 구도입니다. 생성자는 무작위 노이즈에서 가짜 이미지를 만들어내는 위조범 역할을, 감별자는 그 이미지가 진짜 데이터인지 생성자가 만든 가짜인지 판별하는 감별사 역할을 맡습니다.</p>
+        <p>두 신경망은 서로 반대 목표를 갖고 동시에 학습합니다. 생성자는 감별자를 속이는 방향으로, 감별자는 속지 않는 방향으로 각자의 가중치를 조금씩 조정해 나가죠. 이 과정을 수학적으로는 <b>미니맥스 게임(minimax game)</b>이라 부르는데, 쉽게 말해 "한쪽이 잘하면 잘할수록 다른 쪽도 그만큼 더 잘해야 살아남는" 군비 경쟁 구도입니다. 이상적으로 학습이 끝까지 진행되면 생성자가 만든 가짜가 진짜와 통계적으로 구분이 안 될 정도가 되고, 감별자는 진짜와 가짜를 절반의 확률로만 맞히는, 즉 완전히 헷갈리는 상태에 도달합니다.</p>
+        <p>2014년 당시 GAN이 만든 이미지는 지금 기준으로 보면 다소 흐릿하고 어색했습니다. 하지만 핵심은 결과물의 완성도가 아니라 <b>"두 모델을 경쟁시키는 것만으로 별도의 정답 라벨 없이도 그럴듯한 데이터를 새로 만들어낼 수 있다"</b>는 아이디어 자체였습니다. 이후 수많은 연구자들이 이 구조를 이미지, 얼굴, 음성 등 다양한 영역에 적용하고 개선하면서 GAN은 한동안 생성 AI의 대표 패러다임으로 자리 잡았습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: 신경망이 오차를 거꾸로 전파해 가중치를 조정하는 <b>역전파(backpropagation)</b> 개념을 알아두면, 생성자와 감별자가 서로의 신호를 주고받으며 함께 학습되는 과정을 이해하기 쉽습니다.</li>
+        <li><b>다음 스텝</b>: 비슷한 시기에 등장한 또 다른 생성 모델인 <b>VAE(Variational Autoencoder)</b>를 함께 보면, "경쟁시켜서 배우기"와 "확률분포를 직접 근사해서 배우기"라는 생성 모델의 두 가지 접근법을 비교해볼 수 있습니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>이미지 생성 AI 연구를 폭발적으로 성장시킨 출발점이 되어, 이후 <b>DCGAN, CycleGAN, StyleGAN</b> 등 수많은 후속 모델이 이 구조를 발전시켰습니다.</li>
+        <li>'두 모델을 경쟁시켜 학습시킨다'는 <b>적대적 학습</b> 개념 자체가 GAN 바깥에서도 모델의 강건성(robustness)을 높이는 적대적 훈련, 데이터 증강 등 여러 분야로 퍼졌습니다.</li>
+        <li>디퓨전 기반 이미지 생성 모델이 주류로 떠오르기 전까지 약 10년 가까이 생성 이미지 분야의 사실상 표준 접근법으로 쓰이며, 지금의 생성형 AI 붐으로 이어지는 다리 역할을 했습니다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>

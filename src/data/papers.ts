@@ -44,4 +44,10 @@ export const papers: PaperItem[] = [
     title: "LLMs Get Lost In Multi-Turn Conversation",
     file: "/papers/day6-multiturn.html",
   },
+  {
+    day: 7,
+    conference: "NeurIPS",
+    title: "Generative Adversarial Networks",
+    file: "/papers/day7-gan.html",
+  },
 ];
