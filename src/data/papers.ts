@@ -50,4 +50,10 @@ export const papers: PaperItem[] = [
     title: "Generative Adversarial Networks",
     file: "/papers/day7-gan.html",
   },
+  {
+    day: 8,
+    conference: "ICML",
+    title: "The Flexibility Trap: Rethinking the Value of Arbitrary Order in Diffusion Language Models",
+    file: "/papers/day8-flexibility-trap.html",
+  },
 ];
