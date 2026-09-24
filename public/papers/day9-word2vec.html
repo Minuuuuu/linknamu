@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 9</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 9 · ICLR · 2026.09.24</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">왕 빼기 남자 더하기 여자는,<br>여왕이었다</h1>
+      <p class="subline">Efficient Estimation of Word Representations in Vector Space · Mikolov, Chen, Corrado, Dean · ICLR 2013 Workshop</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">ICLR '13</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★☆☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">NLP·워드 임베딩</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">인용 2.6만+</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      오늘은 '기초' 차례입니다. 흔히 <b>Word2Vec</b>이라 불리는 이 논문은, 컴퓨터가 단어의 '뜻'이라는 걸 처음으로 숫자로 다룰 수 있게 만든 자연어처리의 뿌리 같은 연구입니다. 지금 우리가 쓰는 거의 모든 언어모델이 이 아이디어 위에 서 있다고 해도 과언이 아닙니다.
+      <span class="mark">PL·09</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>컴퓨터는 원래 단어를 그냥 사전 속 번호처럼 다뤄서, '강아지'와 '고양이'가 서로 비슷한 단어라는 사실조차 알 방법이 없었고, 기존 신경망 언어모델은 이를 학습시키기엔 계산량이 너무 컸다.</li>
+        <li>이 논문은 각 단어를 여러 숫자로 이루어진 좌표(벡터)로 표현하고, "주변에 비슷한 단어들이 등장하는 단어는 의미도 비슷하다"는 아이디어로 아주 단순한 신경망(<b>CBOW·Skip-gram</b>)을 대량의 텍스트로 빠르게 학습시켰다.</li>
+        <li>그렇게 만든 벡터는 '왕-남자+여자=여왕'처럼 의미끼리 덧셈·뺄셈이 가능할 정도로 정교했고, 이후 모든 자연어처리 모델이 단어를 벡터로 표현하는 방식의 표준 출발점이 됐다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>사전을 떠올려보면 '강아지'는 128번째 단어, '고양이'는 4502번째 단어처럼 그냥 번호가 매겨져 있을 뿐입니다. 번호만 봐서는 둘이 비슷한 동물이라는 걸 전혀 알 수 없죠. 컴퓨터에게 언어를 가르치던 초창기 방식이 딱 이랬습니다. 이 논문은 대신 모든 단어를 지도 위의 좌표처럼 여러 개의 숫자로 표현하자고 제안합니다. 그러면 의미가 비슷한 단어들은 지도 위에서 서로 가까운 동네에 모여 살게 됩니다.</p>
+        <p>그럼 이 좌표는 어떻게 정할까요? 저자들은 언어학의 오래된 통찰인 "그 단어의 뜻은 주변에 어떤 단어들이 오는지를 보면 안다"는 아이디어를 그대로 학습 규칙으로 바꿨습니다. 예를 들어 "나는 ___를 산책시켰다"라는 자리에 '강아지'가 자주 등장하고 가끔 '고양이'도 등장한다면, 두 단어는 비슷한 좌표를 갖도록 학습됩니다. <b>CBOW·Skip-gram</b>이라 불리는 이 방식은 구조가 아주 단순해서, 훨씬 무거웠던 기존 신경망 언어모델보다 압도적으로 빠르게 수십억 개 단어짜리 텍스트를 학습할 수 있었습니다.</p>
+        <p>결과는 놀라웠습니다. 학습된 좌표들로 "왕의 좌표에서 남자의 좌표를 빼고 여자의 좌표를 더하면?"이라는 연산을 해봤더니, 그 답이 실제로 '여왕'의 좌표와 가장 가까웠습니다. 컴퓨터가 단어의 '의미'를 숫자 연산으로 다룰 수 있다는 걸 처음으로, 그것도 아주 간단한 모델로 보여준 순간이었습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: 별도 지식이 없어도 읽을 수 있는 기초 논문이지만, 신경망이 '입력을 받아 숫자를 내놓는 함수'라는 정도만 알아도 이해가 훨씬 쉬워집니다.</li>
+        <li><b>다음 스텝</b>: 이 글의 Day 1이었던 <b>Attention Is All You Need</b>와 비교해보면 좋습니다. Word2Vec의 벡터는 문맥과 상관없이 단어마다 고정된 반면, 트랜스포머의 어텐션은 문장마다 그 뜻을 다르게 계산합니다 — 그 차이를 짚어보면 임베딩 기술의 발전 흐름이 한눈에 들어옵니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>단어를 벡터로 표현한다는 아이디어 자체가 이후 GloVe, fastText 같은 후속 임베딩 연구의 출발점이 됐고, 딥러닝 기반 NLP 파이프라인의 표준 재료로 자리잡았다.</li>
+        <li>트랜스포머의 임베딩 레이어, BERT·GPT 계열이 입력을 처리하는 방식도 결국 '단어=벡터'라는 이 논문의 발상을 계승하고 확장한 것이다.</li>
+        <li>자연어를 벡터로 바꾼다는 개념은 이후 추천 시스템, 검색, 코드·이미지 임베딩 등 NLP를 넘어 다양한 분야로 확장되어 지금도 널리 쓰이고 있다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>

@@ -56,4 +56,10 @@ export const papers: PaperItem[] = [
     title: "The Flexibility Trap: Rethinking the Value of Arbitrary Order in Diffusion Language Models",
     file: "/papers/day8-flexibility-trap.html",
   },
+  {
+    day: 9,
+    conference: "ICLR",
+    title: "Efficient Estimation of Word Representations in Vector Space (Word2Vec)",
+    file: "/papers/day9-word2vec.html",
+  },
 ];
