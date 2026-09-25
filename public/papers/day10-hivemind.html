@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 10</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 10 · NeurIPS · 2026.09.25</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">다르게 물어봐도,<br>대답은 붕어빵이었다</h1>
+      <p class="subline">Artificial Hivemind: The Open-Ended Homogeneity of Language Models (and Beyond) · Jiang, Choi 외 (University of Washington) · NeurIPS 2025 Best Paper (Datasets & Benchmarks Track)</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">NeurIPS '25</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★☆☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">LLM 평가·다양성</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">Best Paper·따끈따끈</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      Day 4의 <strong>게이트 어텐션</strong>에 이어 이번에도 NeurIPS 2025 Best Paper입니다. 다만 이번엔 모델 구조가 아니라 <strong>"AI가 얼마나 다양하게 답하는가"</strong>를 정면으로 파고든, Datasets &amp; Benchmarks 트랙 수상작입니다. 정답이 하나가 아닌 질문에서, 언어모델들이 사실은 다 비슷한 대답만 내놓고 있었다는 이야기입니다.
+      <span class="mark">PL·10</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>"저녁 메뉴 추천해줘", "짧은 시 하나 써줘"처럼 <b>정답이 하나로 정해지지 않은 질문</b>에서 언어모델이 실제로 얼마나 다양하게 답하는지는 제대로 검증된 적이 없었다.</li>
+        <li>연구팀은 이런 열린 질문 2.6만 개를 모은 <b>Infinity-Chat</b> 데이터셋을 만들어, 같은 모델이 같은 질문에 여러 번 답한 응답끼리, 그리고 서로 다른 모델들의 응답끼리 얼마나 비슷한지 측정했다.</li>
+        <li>측정 결과 한 모델이 같은 질문에 50번 답한 응답들이 <b>10개 중 8개 꼴(79%)로 서로 거의 똑같았고</b>, 제조사가 다른 모델들 사이에서도 비슷한 쏠림이 나타나 '인공 벌집마음(Artificial Hivemind)'이라 이름 붙였다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>사람 열 명에게 "요즘 볼 만한 영화 추천해줘"라고 물으면 열 가지 답이 나오는 게 당연합니다. 저자들은 이런 <b>열린 질문(open-ended question)</b>—브레인스토밍, 짧은 글쓰기, 조언 구하기처럼 정답이 하나로 정해지지 않은 질문—2.6만 개를 모아 Infinity-Chat이라는 데이터셋을 만들었습니다. 그리고 여기에 사람이 직접 매긴 평가까지 3만 건 넘게 더해, "AI의 답변이 실제로 얼마나 다양한가"를 잴 수 있는 자를 만들었습니다.</p>
+        <p>측정 방법은 간단합니다. 같은 질문을 같은 모델에게 50번 던져보고, 나온 답변들끼리 문장이 얼마나 비슷한지(문장 유사도)를 비교하는 겁니다. 마치 <b>붕어빵 틀 하나로 빵을 50개 구워보고</b>, 모양이 진짜 다 똑같이 나오는지 확인하는 셈이죠. 결과는 예상보다 심했습니다. 10번 중 8번(79%)은 한 모델이 내놓은 여러 답변들이 유사도 0.8을 넘을 만큼 서로 거의 판박이였습니다. 더 놀라운 건, <b>제조사가 다른 모델들</b>끼리 비교했을 때도 비슷한 쏠림이 나타났다는 점입니다. 서로 다른 회사의 붕어빵 틀인데도 결과물이 비슷했던 겁니다.</p>
+        <p>이 현상을 저자들은 <b>Artificial Hivemind(인공 벌집마음)</b>라 불렀습니다. 벌집 속 벌들이 저마다 다른 개체이면서도 마치 하나의 마음으로 움직이듯, 서로 다른 모델들조차 비슷한 학습 데이터와 정렬(alignment) 과정을 거치면서 개성을 잃고 비슷한 답으로 수렴한다는 뜻입니다. 게다가 리워드모델이나 LLM 심사위원(judge)도, 겉보기 품질은 비슷하지만 사람마다 호불호가 갈리는 미묘한 답변들에 대해서는 사람의 평가와 잘 맞지 않는다는 것도 함께 드러났습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: 별도의 수학적 배경은 필요 없습니다. 다만 Day 7의 <b>GAN(Generative Adversarial Networks)</b>에서 나온 '모드 붕괴(mode collapse)' 개념—생성 모델이 다양한 결과 대신 몇 가지 패턴만 반복해서 내놓는 현상—을 알아두면, 이 논문이 LLM에서 발견한 문제의식이 훨씬 익숙하게 다가옵니다.</li>
+        <li><b>다음 스텝</b>: RLHF 등 정렬(alignment) 과정을 다루는 논문들과 함께 보면, 왜 서로 다른 회사의 모델들조차 비슷하게 수렴하는지에 대한 힌트를 얻을 수 있습니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>NeurIPS 2025 Datasets &amp; Benchmarks 트랙 Best Paper로 선정되며, "LLM을 어떻게 평가할 것인가"라는 방법론 자체에 화두를 던졌다.</li>
+        <li>여러 모델을 섞어 앙상블해도 그 구성 모델들이 비슷한 학습·정렬 과정을 거쳤다면 <b>진짜 다양성을 얻기 어렵다</b>는 것을 실증적으로 보여줬다.</li>
+        <li>브레인스토밍·창작 보조처럼 다양성이 핵심인 활용에 경고음을 울렸고, 사람들이 비슷한 AI 답변에 반복 노출되며 사고방식 자체가 획일화될 수 있다는 사회적 논의까지 확장시켰다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>

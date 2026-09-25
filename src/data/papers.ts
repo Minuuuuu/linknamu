@@ -62,4 +62,10 @@ export const papers: PaperItem[] = [
     title: "Efficient Estimation of Word Representations in Vector Space (Word2Vec)",
     file: "/papers/day9-word2vec.html",
   },
+  {
+    day: 10,
+    conference: "NeurIPS",
+    title: "Artificial Hivemind: The Open-Ended Homogeneity of Language Models (and Beyond)",
+    file: "/papers/day10-hivemind.html",
+  },
 ];
