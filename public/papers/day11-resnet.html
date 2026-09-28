@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 11</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 11 · ICML · 2026.09.28</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">100층 넘게 쌓아도,<br>지름길 하나면 충분했다</h1>
+      <p class="subline">Deep Residual Learning for Image Recognition (ResNet) · He, Zhang, Ren, Sun (Microsoft Research) · CVPR 2016</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">CVPR '16</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★☆☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">컴퓨터비전·신경망 구조</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">약 12만+ 인용</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      오늘은 ICML 로테이션 순서지만, 소개할 논문은 컴퓨터비전 최고 권위 학회인 <strong>CVPR</strong>에서 발표된 <strong>ResNet</strong>입니다. Day 7의 GAN처럼 지금 우리가 쓰는 딥러닝 구조의 뼈대를 만든 논문 중 하나로, "신경망은 무조건 깊게 쌓을수록 좋다"는 믿음이 깨지던 순간 나온 해답이었습니다.
+      <span class="mark">PL·11</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>신경망 층을 더 깊게 쌓으면 성능이 좋아질 줄 알았는데, 오히려 학습 자체가 잘 안 되고 성능이 떨어지는 <b>열화(degradation) 문제</b>가 나타났다.</li>
+        <li>각 층이 처음부터 새로 배우는 대신 <b>"입력값 + 내가 배워야 할 차이(잔차)"</b>만 학습하도록 지름길(skip connection)을 놓아, 정보가 층을 그냥 통과할 길을 열어줬다.</li>
+        <li>이 지름길 덕분에 152층짜리 신경망 학습이 가능해졌고, ILSVRC 2015 우승은 물론 이후 트랜스포머를 포함한 <b>거의 모든 최신 신경망 구조의 기본 부품</b>이 됐다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>신경망은 층(layer)을 쌓아 점점 더 복잡한 특징을 배우는 구조입니다. 그래서 다들 층을 더 많이 쌓을수록 더 똑똑해질 거라 믿었죠. 그런데 실험해보니 이상한 일이 벌어졌습니다. 20층짜리 신경망보다 오히려 56층짜리 신경망의 성능이 더 나빴던 겁니다. 데이터를 더 외워서 생기는 과적합 문제가 아니라, <b>학습 자체가 제대로 되지 않는</b> 근본적인 문제였습니다.</p>
+        <p>ResNet 저자들은 여기에 아주 단순하지만 강력한 해법을 내놓았습니다. 고속도로에 비유하면, 원래는 모든 정보가 국도(각 층)를 하나하나 거쳐가야 했는데, 곳곳에 <b>고속도로 진입로(지름길, skip connection)</b>를 만들어 둔 겁니다. 이제 각 층은 입력을 통째로 새로 만들어내는 대신, "입력에서 얼마나 달라져야 하는지(잔차, residual)"만 배우면 됩니다. 만약 그 층이 딱히 더할 게 없다면 지름길을 타고 입력을 그대로 흘려보내면 그만이라, 아무리 층을 깊게 쌓아도 최소한 성능이 더 나빠지지는 않는 구조가 만들어졌습니다.</p>
+        <p>이 지름길 하나로 152층짜리 신경망 학습이 가능해졌고, ILSVRC 2015 이미지 분류 대회에서 기존 기록을 큰 폭으로 뛰어넘으며 우승했습니다. 더 중요한 건 그 이후입니다. 이 '지름길' 아이디어는 컴퓨터비전을 넘어 사실상 모든 딥러닝 구조에 스며들었고, Day 1의 Attention Is All You Need에 나온 트랜스포머 블록 안에도 residual connection이 그대로 쓰이고 있습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: 신경망이 층을 쌓아 학습한다는 기본 개념 정도만 알면 충분합니다. Day 5의 <b>Batch Normalization</b>과 함께 보면, 깊은 신경망을 안정적으로 학습시키는 두 축(정규화 + 지름길)을 한 번에 이해할 수 있습니다.</li>
+        <li><b>다음 스텝</b>: Day 1의 <b>Attention Is All You Need</b>를 다시 살펴보면, 트랜스포머의 각 블록에도 residual connection이 그대로 들어가 있다는 걸 확인할 수 있습니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>ILSVRC 2015 우승을 통해 "신경망을 더 깊게 쌓을수록 성능이 좋아진다"는 딥러닝 스케일업 전략에 실질적인 발판을 마련했다.</li>
+        <li>Skip(residual) connection은 이후 트랜스포머를 포함해 사실상 모든 최신 신경망 구조에 들어가는 표준 구성 요소가 됐다.</li>
+        <li>2020년 한 분석에서 최근 5년간 컴퓨터과학 분야에서 가장 많이 인용된 논문으로 꼽혔을 만큼, 지금도 인용이 꾸준히 늘고 있는 논문이다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>

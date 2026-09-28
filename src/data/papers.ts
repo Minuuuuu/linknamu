@@ -68,4 +68,10 @@ export const papers: PaperItem[] = [
     title: "Artificial Hivemind: The Open-Ended Homogeneity of Language Models (and Beyond)",
     file: "/papers/day10-hivemind.html",
   },
+  {
+    day: 11,
+    conference: "ICML",
+    title: "Deep Residual Learning for Image Recognition (ResNet)",
+    file: "/papers/day11-resnet.html",
+  },
 ];
