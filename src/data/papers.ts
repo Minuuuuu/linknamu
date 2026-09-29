@@ -74,4 +74,10 @@ export const papers: PaperItem[] = [
     title: "Deep Residual Learning for Image Recognition (ResNet)",
     file: "/papers/day11-resnet.html",
   },
+  {
+    day: 12,
+    conference: "ICLR",
+    title: "Safety Alignment Should Be Made More Than Just a Few Tokens Deep",
+    file: "/papers/day12-shallow-safety.html",
+  },
 ];
