@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 13</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 13 · NeurIPS · 2026.09.30</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">뉴런 절반을 재웠더니,<br>신경망이 더 똑똑해졌다</h1>
+      <p class="subline">Dropout: A Simple Way to Prevent Neural Networks from Overfitting · Srivastava, Hinton, Krizhevsky, Sutskever, Salakhutdinov (University of Toronto) · JMLR 2014</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">JMLR '14</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★☆☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">정규화·과적합 방지</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">수만 회 인용</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      오늘은 NeurIPS 로테이션 순서지만, 소개할 논문은 <strong>JMLR</strong>에 발표된 <strong>Dropout</strong>입니다. Day 5의 Batch Normalization과 함께 지금도 거의 모든 신경망 학습에 기본으로 들어가는 정규화 기법이자, "학습 중에 뉴런을 무작위로 꺼버린다"는 다소 엉뚱해 보이는 아이디어가 어떻게 과적합 문제를 해결했는지 보여주는 논문입니다.
+      <span class="mark">PL·13</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>신경망은 파라미터가 워낙 많아 학습 데이터를 통째로 외워버리는 <b>과적합(overfitting)</b>에 취약하고, 특정 뉴런들끼리 서로에게만 의존하는 <b>동조화(co-adaptation)</b> 문제도 있었다.</li>
+        <li>해법은 뜻밖에 단순했다. 학습할 때마다 신경망의 뉴런 일부를 <b>무작위로 꺼버리는(dropout)</b> 것만으로, 수많은 서로 다른 축소판 신경망을 동시에 학습시켜 평균 낸 것과 비슷한 효과를 냈다.</li>
+        <li>구현이 몇 줄이면 충분할 만큼 단순한데도 비전·음성·문서분류 등 다양한 분야에서 일관되게 성능을 끌어올렸고, 이후 딥러닝 정규화의 표준 기법으로 자리잡았다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>신경망은 배울 수 있는 파라미터가 워낙 많다 보니, 학습 데이터의 사소한 특징까지 통째로 외워버리는 경우가 흔합니다. 마치 기출문제를 유형이 아니라 답 그 자체로 통째로 외운 학생이 시험 문제가 조금만 바뀌어도 헤매는 것과 비슷하죠. 저자들은 여기서 한 걸음 더 들어가, 신경망 내부에서 특정 뉴런들끼리 서로 짝을 이뤄 "얘가 있을 때만 내가 잘 작동한다"는 식으로 지나치게 의존하는 <b>동조화(co-adaptation)</b> 현상을 문제로 짚었습니다. 이런 뉴런 조합은 학습 데이터에는 잘 맞지만, 조합이 조금만 흐트러지면 쉽게 무너집니다.</p>
+        <p>해법은 스포츠팀 훈련에 비유하면 이해가 쉽습니다. 매 훈련마다 무작위로 절반의 선수를 벤치에 앉혀 놓고 나머지로만 연습시키면, 특정 스타 선수 한둘에게만 기대는 팀이 아니라 누가 빠지든 돌아가는 팀이 됩니다. Dropout은 정확히 이걸 신경망에 적용한 것입니다. 매 학습 스텝마다 각 뉴런을 일정 확률(주로 50%)로 무작위로 꺼버리고, 살아남은 뉴런들만으로 학습을 진행합니다. 이렇게 하면 특정 뉴런 조합에 기대는 지름길을 쓸 수 없게 되어, 각 뉴런이 더 범용적이고 독립적으로 쓸모 있는 특징을 배우게 됩니다.</p>
+        <p>결과적으로 이 과정은 학습할 때마다 조금씩 다른 축소판 신경망 수만~수억 개를 학습시키는 것과 비슷하고, 테스트할 때는 그 모든 축소판들의 예측을 평균 낸 효과를 하나의 온전한 신경망(가중치를 살짝 줄인 형태)으로 근사해냅니다. 저자들은 이 방법을 비전, 음성인식, 문서분류, 생물정보학 등 여러 분야의 벤치마크에 적용해 당시 다른 정규화 기법들보다 뚜렷하게 나은 성능을 얻었다고 보고했습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: 신경망이 여러 층의 뉴런으로 이루어져 있고, 학습 데이터에 과적합될 수 있다는 기본 개념 정도만 알면 충분합니다.</li>
+        <li><b>같이 보면 좋은 논문</b>: Day 5의 <b>Batch Normalization</b>과 짝지어 보면, 딥러닝 학습을 안정시키고 일반화 성능을 높이는 두 축(층 출력을 정규화하는 방식 vs 뉴런을 무작위로 제거하는 방식)을 비교하며 이해할 수 있습니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>몇 줄의 코드로 구현 가능한 단순함에도 비전·음성인식·문서분류 등 다양한 분야에서 일관되게 성능을 끌어올려, "단순한 아이디어도 큰 효과를 낼 수 있다"는 걸 보여줬다.</li>
+        <li>이후 나온 합성곱망·순환망은 물론 트랜스포머 기반 모델까지, 사실상 대부분의 신경망 아키텍처에서 기본 정규화 기법 중 하나로 채택됐다.</li>
+        <li>"무작위성을 이용한 정규화"라는 발상은 DropConnect, Stochastic Depth 등 후속 정규화 기법들이 뒤이어 나오는 출발점이 됐다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>

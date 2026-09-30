@@ -80,4 +80,10 @@ export const papers: PaperItem[] = [
     title: "Safety Alignment Should Be Made More Than Just a Few Tokens Deep",
     file: "/papers/day12-shallow-safety.html",
   },
+  {
+    day: 13,
+    conference: "NeurIPS",
+    title: "Dropout: A Simple Way to Prevent Neural Networks from Overfitting",
+    file: "/papers/day13-dropout.html",
+  },
 ];
