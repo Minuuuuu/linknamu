@@ -86,4 +86,10 @@ export const papers: PaperItem[] = [
     title: "Dropout: A Simple Way to Prevent Neural Networks from Overfitting",
     file: "/papers/day13-dropout.html",
   },
+  {
+    day: 14,
+    conference: "ICML",
+    title: "High-Accuracy Sampling for Diffusion Models and Log-Concave Distributions",
+    file: "/papers/day14-fors.html",
+  },
 ];
