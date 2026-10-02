@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 15</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 15 · ICLR · 2026.10.02</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">기억을 흘려보내지 않는<br>게이트를 달았다</h1>
+      <p class="subline">Long Short-Term Memory · Sepp Hochreiter, Jürgen Schmidhuber (뮌헨 공과대·IDSIA) · Neural Computation 1997</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">N.Comp '97</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★★☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">순환신경망·시퀀스모델</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">인용 10만+</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      오늘은 '기초' 차례입니다. Day 1의 <b>Attention Is All You Need</b>가 등장해 세상을 바꾸기 전까지, 거의 20년 동안 순서가 있는 데이터(문장·음성·시계열)를 다루는 딥러닝의 표준이었던 <b>LSTM</b>을 소개합니다. "기억을 어떻게 오래 간직할 것인가"라는 질문에 처음으로 제대로 답을 낸 구조입니다.
+      <span class="mark">PL·15</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>기존 순환신경망(RNN)은 문장이나 시계열처럼 순서가 있는 데이터를 처리할 때, 몇 걸음만 지나도 과거 정보가 기하급수적으로 사라지거나 폭발해버려 먼 과거의 정보를 기억하지 못했다.</li>
+        <li>저자들은 신경망 안에 <b>기억 셀(memory cell)</b>이라는 별도의 저장 공간을 두고, 정보를 얼마나 들여보내고 내보낼지를 조절하는 <b>게이트</b>로 감싸서, 중요한 정보가 깎이지 않고 오래 흘러갈 수 있게 만들었다.</li>
+        <li>실험에서 수백~수천 스텝 떨어진 과거 정보도 기억해낼 수 있음을 보여줬고, 이후 거의 20년간 번역·음성인식·필기인식 등 시퀀스를 다루는 딥러닝의 표준 아키텍처로 자리잡았다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>순환신경망(RNN)은 한 단어씩 읽으며 그때까지의 요약을 다음 단계로 넘겨주는 구조입니다. 문제는 여러 사람을 거쳐 말을 전달하는 '말 전하기 게임'과 비슷하다는 점이었습니다. 메시지가 한 사람을 거칠 때마다 조금씩 왜곡되듯, RNN도 오차 신호가 매 단계마다 곱해지면서 몇 걸음만 지나면 거의 0으로 사라지거나(vanishing) 반대로 터무니없이 커져버리는(exploding) 문제가 있었습니다. 그래서 "열 문장 전에 나온 주어가 뭐였지?" 같은 먼 과거의 정보를 전혀 기억하지 못했습니다.</p>
+        <p>저자들의 해법은 신경망 한가운데에 쉽게 변하지 않는 <b>기억 창고(memory cell)</b>를 하나 만들어두는 것이었습니다. 이 창고에 무엇을 새로 담을지는 <b>입력 게이트</b>가, 창고 안의 내용을 지금 얼마나 꺼내 쓸지는 <b>출력 게이트</b>가 결정합니다. 중요한 건 창고 안의 값 자체는 곱셈이 아니라 덧셈 위주로만 바뀌도록 설계했다는 점인데, 이렇게 하면 오차 신호가 매 단계 곱해지며 사라지는 대신 창고를 따라 거의 그대로 흘러갈 수 있습니다. (참고로 "지금 담긴 기억을 얼마나 지울지"를 결정하는 <b>망각 게이트</b>는 몇 년 뒤 후속 연구에서 추가된 구성요소입니다.)</p>
+        <p>저자들은 이 구조를 인위적으로 만든 여러 장기 의존성 과제에 실험했고, 기존 RNN이나 다른 학습 방법들은 몇십 스텝만 지나도 실패하던 과제를, LSTM은 수백~수천 스텝 떨어진 정보까지 기억해 성공적으로 풀어낼 수 있음을 보였습니다. 이후 이 구조는 음성인식, 기계번역, 필기인식 등 실제 서비스에 널리 쓰이며 긴 시퀀스를 다루는 딥러닝의 기본값으로 자리잡았습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: 순환신경망(RNN)이 데이터를 순서대로 한 스텝씩 읽으며 이전 정보를 다음 단계로 넘겨준다는 기본 구조와, 신경망이 오차를 거슬러 전파하며 학습한다는 backpropagation 개념을 알면 이해가 쉽습니다.</li>
+        <li><b>같이 보면 좋은 논문</b>: Day 1의 <b>Attention Is All You Need</b>와 짝지어 보면 좋습니다. 거의 20년간 시퀀스 모델링을 지배했던 LSTM의 '게이트로 기억을 흘려보내는 방식'이, 트랜스포머의 '모든 위치를 한 번에 돌아보는 어텐션 방식'으로 어떻게 대체됐는지 비교하며 흐름을 읽을 수 있습니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>수백~수천 스텝에 걸친 장기 의존성 문제를 실질적으로 풀어낸 첫 구조로, 이후 거의 20년간 시퀀스 모델링의 기본값이 됐다.</li>
+        <li>구글의 음성인식, 기계번역(GNMT) 등 실제 제품에 탑재되며 딥러닝이 실험실을 벗어나 상용 서비스로 넘어가는 초기 성공 사례를 만들었다.</li>
+        <li>"게이트로 정보 흐름을 조절한다"는 발상은 이후 더 가벼운 변형 구조인 GRU로 이어졌고, 오늘날 트랜스포머 등 다양한 아키텍처가 정보 흐름을 선택적으로 조절하는 방식에도 영향을 준 것으로 평가받는다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>

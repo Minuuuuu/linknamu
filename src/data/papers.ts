@@ -92,4 +92,10 @@ export const papers: PaperItem[] = [
     title: "High-Accuracy Sampling for Diffusion Models and Log-Concave Distributions",
     file: "/papers/day14-fors.html",
   },
+  {
+    day: 15,
+    conference: "ICLR",
+    title: "Long Short-Term Memory",
+    file: "/papers/day15-lstm.html",
+  },
 ];
