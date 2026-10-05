@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 16</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 16 · NeurIPS · 2026.10.05</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">2층짜리 동네에<br>1024층 빌딩을 올렸다</h1>
+      <p class="subline">1000 Layer Networks for Self-Supervised RL: Scaling Depth Can Enable New Goal-Reaching Capabilities · Kevin Wang, Ishaan Javali, Michał Bortkiewicz, Tomasz Trzciński, Benjamin Eysenbach (프린스턴대 등) · NeurIPS 2025 Best Paper</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">NeurIPS '25</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★★☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">강화학습·자기지도학습</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">Best Paper·따끈따끈</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      Day 4의 <strong>게이트 어텐션</strong>, Day 10의 <strong>Artificial Hivemind</strong>에 이어 또 하나의 NeurIPS 2025 Best Paper입니다. 이번엔 "신경망을 깊게 쌓으면 더 잘한다"는, 비전·언어 모델에서는 당연했던 법칙이 강화학습(RL)에서는 왜 안 통했는지, 그리고 그걸 어떻게 뚫어냈는지에 대한 이야기입니다.
+      <span class="mark">PL·16</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>이미지·언어 모델은 층을 더 쌓을수록 더 잘하는 '스케일링 법칙'을 누려왔지만, 강화학습(RL) 신경망은 최근 몇 년간도 여전히 <b>2~5층짜리 얕은 구조</b>에 머물러 있었다. 더 깊게 쌓으면 학습이 무너졌기 때문이다.</li>
+        <li>연구팀은 잔차연결·레이어정규화 같은 안정화 기법을 조합해, 보상이나 사람의 시범 없이 스스로 목표 도달법을 배우는 <b>자기지도 대조학습(contrastive RL)</b> 네트워크를 최대 <b>1024층</b>까지 무너지지 않게 쌓는 데 성공했다.</li>
+        <li>로봇 보행·조작 시뮬레이션 과제에서 기존 얕은 네트워크 대비 성능이 <b>2배~50배</b> 뛰었고, "RL도 결국 깊이로 스케일링된다"는 가능성을 실증해 보였다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>비전·언어 모델 쪽 동네는 지난 10년간 계속 건물을 더 높게 올려왔습니다. 층을 쌓을수록(=파라미터를 늘릴수록) 성능이 꾸준히 좋아진다는 '스케일링 법칙'이 확인됐기 때문입니다. 그런데 바로 옆 동네인 강화학습(RL)은 이상하게도 여전히 2~5층짜리 저층 건물만 짓고 있었습니다. 층을 더 올리려고 하면 학습 자체가 불안정해지며 와르르 무너졌기 때문입니다. "RL은 원래 깊이로는 스케일링이 안 되는 분야"라는 게 암묵적인 통념이었습니다.</p>
+        <p>이 논문이 다룬 건 보상이나 사람이 준 정답 시범 없이, 에이전트가 환경을 스스로 돌아다니며 "여기서 저기까지 가는 법"을 배우는 <b>자기지도 목표도달 학습(self-supervised goal-conditioned RL)</b>입니다. 대표 방식인 대조학습(contrastive RL)은 에이전트가 실제로 거쳐간 상태 쌍은 "가깝다"로, 무작위로 뽑은 상태 쌍은 "멀다"로 구분하며 배웁니다. 누군가 정답 경로를 알려주지 않아도, 돌아다니다 보니 "이 두 지점은 가깝구나, 저긴 머네"를 스스로 터득하며 지도를 그려가는 셈입니다. 연구팀은 이 학습 과정에 비전·언어 모델이 써온 안정화 도구들—계단을 건너뛰어 정보를 바로 전달하는 <b>잔차연결(residual connection)</b>, 층마다 값이 너무 커지거나 작아지지 않게 잡아주는 <b>레이어정규화(LayerNorm)</b>, 부드러운 활성함수 Swish—을 그대로 가져와 조합했습니다. 마치 저층 건물만 짓던 동네에, 초고층 빌딩 짓는 동네의 철골 설계와 완충장치 노하우를 통째로 빌려온 셈입니다.</p>
+        <p>결과는 꽤 선명했습니다. 로봇 팔 조작, 보행 같은 시뮬레이션 과제에서 층수를 1024층까지 늘린 네트워크가 기존 2~5층짜리 대조학습 모델보다 <b>2배에서 50배까지</b> 더 나은 성능을 보였고, 다른 목표도달 RL 기법들도 앞질렀습니다. 단순히 조금 더 잘하는 수준이 아니라, 얕은 네트워크로는 애초에 풀지 못했던 과제를 깊은 네트워크가 새로 풀어내는 경우도 있었습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: 에이전트가 환경과 상호작용하며 보상을 받아 정책을 학습한다는 강화학습의 기본 개념, 그리고 Day 7의 <b>GAN</b>에서도 등장했던 "맞는 쌍과 틀린 쌍을 구분하며 배우는" 대조학습(contrastive learning)의 감을 알아두면 이해가 쉽습니다.</li>
+        <li><b>같이 보면 좋은 논문</b>: Day 11의 <b>ResNet</b>과 짝지어 보면 좋습니다. 비전 분야에서 "층을 깊게 쌓아도 학습이 무너지지 않게" 해준 잔차연결 아이디어가, 거의 10년 뒤 RL에도 그대로 적용돼 비슷한 돌파구를 만든 흐름을 비교해볼 수 있습니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>NeurIPS 2025 Best Paper로 선정되며, "RL은 스케일링 법칙이 안 통하는 분야"라는 오랜 통념을 실증 데이터로 반박했다.</li>
+        <li>비전·언어 모델에서 검증된 안정화 기법들을 그대로 조합하는 것만으로 RL 네트워크를 1024층까지 쌓을 수 있음을 보이며, 이후 RL 아키텍처 연구가 '더 깊게'라는 새로운 축을 본격적으로 탐색하게 만든 신호탄이 됐다.</li>
+        <li>보상이나 시범 없이 스스로 목표 도달법을 배우는 자기지도 RL이 네트워크 크기만으로 로봇 제어 같은 실제 과제에서 실질적인 성능 향상을 얻을 수 있음을 보여, 로보틱스·시뮬레이션 연구에 실용적인 힌트를 줬다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>

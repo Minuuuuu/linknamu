@@ -98,4 +98,10 @@ export const papers: PaperItem[] = [
     title: "Long Short-Term Memory",
     file: "/papers/day15-lstm.html",
   },
+  {
+    day: 16,
+    conference: "NeurIPS",
+    title: "1000 Layer Networks for Self-Supervised RL: Scaling Depth Can Enable New Goal-Reaching Capabilities",
+    file: "/papers/day16-deep-rl.html",
+  },
 ];
