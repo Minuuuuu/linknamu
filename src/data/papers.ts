@@ -104,4 +104,10 @@ export const papers: PaperItem[] = [
     title: "1000 Layer Networks for Self-Supervised RL: Scaling Depth Can Enable New Goal-Reaching Capabilities",
     file: "/papers/day16-deep-rl.html",
   },
+  {
+    day: 17,
+    conference: "ICML",
+    title: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    file: "/papers/day17-bert.html",
+  },
 ];

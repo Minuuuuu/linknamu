@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 17</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 17 · ICML · 2026.10.06</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">한쪽만 읽던 AI에게<br>양쪽을 다 보라고 가르쳤다</h1>
+      <p class="subline">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding · Jacob Devlin, Ming-Wei Chang, Kenton Lee, Kristina Toutanova (Google AI Language) · NAACL 2019</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">NAACL '19</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★★☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">자연어처리·사전학습</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">인용 8만+</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      오늘은 '기초' 차례입니다. Day 1의 <strong>Attention Is All You Need</strong>가 나온 지 1년 만에 등장해, "거대한 텍스트로 미리 학습한 뒤 각 과제에 맞게 살짝 손본다"는 사전학습-파인튜닝 패러다임을 자연어처리의 표준으로 만든 <strong>BERT</strong>를 소개합니다.
+      <span class="mark">PL·17</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>기존 언어모델은 문장을 왼쪽에서 오른쪽으로만 읽어가며 다음 단어를 맞히는 방식으로 학습했기 때문에, 한 단어의 의미를 파악할 때 그 단어 뒤에 오는 맥락은 보지 못하는 한계가 있었다.</li>
+        <li>저자들은 문장의 일부 단어를 가린 뒤 <b>앞뒤 맥락을 동시에 보고</b> 그 단어를 맞히는 '빈칸 채우기(마스킹 언어모델)' 과제로 트랜스포머를 미리 학습시키고, 각 과제에는 작은 층 하나만 얹어 짧게 미세조정하면 되는 구조를 제안했다.</li>
+        <li>질의응답·문장관계 추론 등 11개 과제에서 모두 최고 성능을 갈아치우며, "미리 학습한 큰 모델을 각 과제에 맞게 미세조정한다"는 사전학습 패러다임을 자연어처리 전반의 표준 작업방식으로 만들었다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>BERT 이전의 언어모델들은 대개 문장을 한쪽 방향으로만 읽었습니다. "나는 어제 ___에 가서 영화를 봤다"에서 빈칸을 맞히려면 당연히 앞뒤 단어를 다 보고 싶겠지만, 왼쪽에서 오른쪽으로만 읽는 모델은 "나는 어제"까지만 보고 빈칸을 추측해야 했습니다. 양방향을 쓰는 ELMo 같은 모델도 있었지만, 왼쪽에서 오른쪽으로 읽는 모델과 오른쪽에서 왼쪽으로 읽는 모델을 각각 따로 학습시킨 뒤 결과만 이어붙이는 방식이어서, 처음부터 양쪽을 동시에 고려하며 학습한 건 아니었습니다. 한쪽 눈을 감고 책을 읽는 것과 비슷한 셈이었습니다.</p>
+        <p>저자들의 해법은 단순하면서도 효과적이었습니다. 문장에서 단어 몇 개를 무작위로 가린 뒤, 가려지지 않은 앞뒤 단어들을 모두 보고 가려진 단어를 맞히게 하는 <b>마스킹 언어모델(MLM)</b> 과제로 트랜스포머(Day 1의 셀프어텐션 구조) 인코더를 학습시켰습니다. 학교 시험의 빈칸 채우기 문제를 풀 때 빈칸 앞뒤 문장을 다 읽고 답을 찾는 것과 같은 방식입니다. 여기에 두 문장이 실제로 이어지는 문장인지 맞히는 과제를 더해, 문장과 문장 사이의 관계까지 함께 익히게 했습니다. 이렇게 한 번 미리 학습시켜 둔 모델은, 질의응답이든 문장 분류든 과제별로 작은 출력층 하나만 얹고 비교적 짧게 추가 학습(파인튜닝)만 하면 바로 그 과제에 쓸 수 있었습니다.</p>
+        <p>결과는 확실했습니다. 문장 관계를 추론하는 MultiNLI에서 정확도 86.7%, 질의응답 과제인 SQuAD v1.1에서 F1 93.2, 더 어려운 SQuAD v2.0에서도 F1 83.1을 기록하며, 여러 과제를 모아놓은 GLUE 벤치마크 점수를 80.5%까지 끌어올렸습니다. 논문에서 다룬 11개 과제 전부에서 당시 최고 기록을 새로 썼습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: Day 1의 <b>Attention Is All You Need</b>에서 다룬 트랜스포머의 셀프어텐션·인코더 구조를 알아두면, BERT가 그 인코더 부분을 그대로 가져와 양방향 사전학습에 특화시켰다는 점이 쉽게 이해됩니다.</li>
+        <li><b>같이 보면 좋은 논문</b>: 비슷한 시기 등장한 GPT 계열과 대조해보면 좋습니다. GPT는 트랜스포머의 디코더만 써서 왼쪽에서 오른쪽으로만 읽는 단방향 생성 모델인 반면, BERT는 인코더로 양방향 문맥을 한 번에 보는 '이해' 중심 모델이라는 설계 철학 차이가 뚜렷합니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>"거대한 텍스트로 미리 학습한 뒤 각 과제에 맞게 미세조정한다"는 사전학습-파인튜닝 워크플로를 자연어처리 전반의 표준으로 자리잡게 했다.</li>
+        <li>구글 검색 등 실제 서비스에도 적용되며 실용성을 입증했고, 이후 RoBERTa·ALBERT·ELECTRA 등 수많은 변형·개선 연구를 촉발했다.</li>
+        <li>GPT 계열의 단방향 디코더 접근과 대비되는 양방향 인코더 접근의 가능성을 증명하며, 이후 모델 설계 방향을 고민할 때 늘 비교 대상이 되는 기준점이 됐다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>
