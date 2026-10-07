@@ -110,4 +110,10 @@ export const papers: PaperItem[] = [
     title: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
     file: "/papers/day17-bert.html",
   },
+  {
+    day: 18,
+    conference: "ICLR",
+    title: "SAM 2: Segment Anything in Images and Videos",
+    file: "/papers/day18-sam2.html",
+  },
 ];

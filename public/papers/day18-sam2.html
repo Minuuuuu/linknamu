@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 18</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 18 · ICLR · 2026.10.07</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">점 한 번 찍었더니<br>영상 끝까지 따라다니며 오려냈다</h1>
+      <p class="subline">SAM 2: Segment Anything in Images and Videos · Nikhila Ravi 등 Meta AI 연구진 · ICLR 2025 Honorable Mention</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">ICLR '25</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★★☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">컴퓨터비전·영상분할</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">Honorable Mention</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      오늘은 '최신 트렌드' 차례입니다. ICLR 2025에서 Honorable Mention을 받았고, 발표 이후 가장 많이 인용된 논문으로도 꼽히는 Meta의 <strong>SAM 2</strong>를 소개합니다. 사진만 잘 오려내던 AI에게 동영상까지 맡길 수 있게 만든 연구입니다.
+      <span class="mark">PL·18</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>기존 Segment Anything(SAM)은 사진 속 물체를 클릭 한 번으로 척척 오려냈지만, 영상에서는 장면이 프레임마다 바뀌는 탓에 사람이 매 프레임 다시 알려줘야 했다.</li>
+        <li>저자들은 과거 프레임에서 본 물체의 생김새와 위치를 저장해두는 <b>메모리</b>를 모델에 달아, 처음 한두 프레임에만 점이나 박스를 찍으면 이후 프레임에서는 모델이 스스로 그 물체를 쫓아가며 오려내게 했다.</li>
+        <li>이미지와 영상을 하나의 모델로 통합하면서도 이전보다 더 적은 클릭으로 더 정확하게 분할해내, 영상 편집·로봇 비전 등에서 바로 쓸 수 있는 실용적 토대를 마련했다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>원조 SAM은 사진 한 장 안에서는 똑똑했습니다. 물체 위에 점 하나만 찍으면 그 물체의 윤곽을 정확히 오려냈죠. 그런데 영상은 사진 수십, 수백 장이 이어진 것과 같아서, 매 프레임이 조금씩 다른 그림입니다. SAM에게 영상을 맡기면 한 프레임에서 오려낸 물체가 다음 프레임에서는 다시 "이게 뭐죠?"라고 묻는 셈이었습니다. 매번 처음 만난 사람에게 같은 사진을 설명해주는 것과 비슷한 비효율이었습니다.</p>
+        <p>저자들의 해법은 모델에 <b>기억하는 능력</b>을 달아준 것입니다. '메모리 뱅크'라는 저장 공간에 지금까지 본 프레임들 속 물체의 생김새와 움직임을 차곡차곡 쌓아두고, 새 프레임이 들어오면 이 기억을 참고해서 "아까 그 물체가 여기로 움직였겠구나"를 추론합니다. 길에서 한 번 가리킨 사람을 CCTV 여러 대가 이어서 추적하는 것과 비슷한 구조입니다. 그 결과 사용자는 영상 전체가 아니라 맨 처음 한두 프레임에만 점을 찍어주면 되고, 모델이 나머지를 알아서 이어받습니다.</p>
+        <p>이를 학습시키기 위해 영상 5만여 개, 마스크(물체 윤곽) 64만여 개, 개별 마스크 3,550만여 개 규모의 SA-V 데이터셋을 새로 구축했는데, 기존에 공개된 가장 큰 영상 분할 데이터셋보다 약 53배 많은 양입니다. 그 결과 DAVIS 2017 벤치마크에서 82.5, YouTube-VOS에서 81.2(J&F 지표)를 기록하며 기존 영상 분할 모델들을 앞섰고, 사람이 찍어줘야 하는 클릭 수는 약 3분의 1로 줄었습니다. 사진만 다루는 과제에서도 원조 SAM보다 정확하면서 약 6배 빠르게 동작합니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: 원조 Segment Anything(SAM, 2023)의 '프롬프트형 분할' 개념을 알아두면, SAM 2가 거기에 '기억'과 '시간'을 더했다는 차이가 선명하게 보입니다. 메모리가 과거 프레임을 참고하는 방식은 Day 1 <b>Attention Is All You Need</b>의 어텐션 구조를 응용한 것이라 함께 보면 이해가 쉽습니다.</li>
+        <li><b>같이 보면 좋은 논문</b>: 같은 ICLR 2025 Outstanding Paper인 Day 12의 <b>Safety Alignment Should Be Made More Than Just a Few Tokens Deep</b>과 비교하면, 같은 해 같은 학회에서도 언어모델 안전성과 컴퓨터비전이라는 전혀 다른 문제를 다루는 연구가 동시에 주목받았다는 걸 알 수 있습니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>영상 편집·콘텐츠 제작 도구에 바로 적용할 수 있는 실용적인 영상 객체 분할 표준을 제시했다.</li>
+        <li>로봇 비전, 자율주행, AR/VR처럼 실시간으로 움직이는 물체를 계속 인식해야 하는 분야에 쓸 수 있는 토대를 마련했다.</li>
+        <li>모델과 SA-V 데이터셋, 코드를 모두 공개해 이후 영상 분할·추적 연구가 참고하는 기준점이 됐다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>
