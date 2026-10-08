@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 19</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 19 · NeurIPS · 2026.10.08</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">다음 단어만 맞히라고 시켰는데<br>번역·요약까지 혼자 터득했다</h1>
+      <p class="subline">GPT-2: Language Models are Unsupervised Multitask Learners · Alec Radford, Jeffrey Wu, Rewon Child, David Luan, Dario Amodei, Ilya Sutskever (OpenAI) · OpenAI Tech Report 2019</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">OpenAI '19</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★☆☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">자연어처리·언어모델</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">파라미터 15억</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      오늘은 '기초' 차례입니다. Day 1 <strong>Attention Is All You Need</strong>의 트랜스포머와 Day 17 <strong>BERT</strong>를 잇는 또 하나의 축, OpenAI의 <strong>GPT-2</strong>를 소개합니다. "다음 단어 맞히기"만 시켰을 뿐인데, 모델이 번역·요약 같은 일까지 스스로 해내기 시작한 순간입니다.
+      <span class="mark">PL·19</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>그동안 번역, 요약, 질의응답 같은 과제를 시키려면 각 과제에 맞는 정답 데이터를 따로 모아 모델을 따로 학습시켜야 했다.</li>
+        <li>저자들은 인터넷 글 수백만 건으로 <b>그냥 다음 단어를 맞히는 훈련</b>만 시켰는데, 모델을 충분히 크게 키우자 과제별 정답 데이터 없이도(zero-shot) 번역·요약·질의응답을 어느 정도 해내는 모습을 보였다.</li>
+        <li>하나의 모델이 과제 전용 학습 없이 여러 일을 해낼 수 있다는 걸 처음으로 크게 보여줘, 이후 GPT-3와 ChatGPT로 이어지는 "모델을 키우면 능력이 따라온다"는 흐름의 출발점이 됐다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>GPT-2 이전까지 AI에게 번역을 시키려면 번역 전용 데이터로, 요약을 시키려면 요약 전용 데이터로 따로 가르쳐야 했습니다. 과제마다 전담 과외선생을 새로 고용하는 것과 비슷했죠. 저자들은 다른 질문을 던졌습니다. "애초에 글을 아주 많이, 아주 잘 읽은 사람이라면 번역이나 요약도 따로 안 배워도 어느 정도 흉내 낼 수 있지 않을까?"</p>
+        <p>그래서 레딧에서 추천(카르마)을 3개 이상 받은 외부 링크들을 모아 약 800만 개 문서, 40GB 분량의 'WebText'라는 글 모음을 만들었습니다. 그리고 이 글들로 모델에게 시킨 훈련은 딱 하나, "앞 문장을 보고 다음 단어를 맞혀봐"였습니다. 정답지를 따로 주지 않고 그냥 많이 읽히기만 한 셈입니다. 대신 "한국어를 영어로: ___"처럼 글 속에 자연스럽게 등장하는 문장 패턴을 모델이 인식하면, 그게 곧 "지금은 번역을 해야 하는 상황"이라는 암묵적인 지시로 작동하게끔 설계했습니다. 지금 우리가 쓰는 '프롬프트'라는 개념의 원형입니다.</p>
+        <p>가장 큰 모델은 파라미터(모델이 학습한 가중치 값의 개수) 약 15억 개로, 당시 공개된 언어모델 중 가장 큰 규모였습니다. 이 모델은 과제별로 추가 학습을 전혀 하지 않았는데도 테스트한 8개 언어모델링 데이터셋 중 7개에서 그 시점 최고 성능을 기록했고, 사람이 쓴 것처럼 자연스러운 긴 글도 생성해냈습니다. 오히려 이 능력이 화제가 되면서 OpenAI는 "악용될 수 있다"며 가장 큰 모델의 공개를 몇 달 동안 미루고 단계적으로 풀었는데, 이는 AI 모델 공개 방식을 둘러싼 논의에 불을 지핀 초기 사례로 꼽힙니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: GPT-2는 Day 1 <b>Attention Is All You Need</b>의 트랜스포머 구조 중 디코더 부분만 쌓아 만든 모델입니다. 어텐션이 뭔지 알고 보면 "다음 단어 맞히기"가 왜 그렇게 강력한지 체감이 쉽습니다.</li>
+        <li><b>같이 보면 좋은 논문</b>: Day 17 <b>BERT</b>와 비교해보면 좋습니다. BERT는 문장을 양방향으로 읽어 '이해'에 강한 인코더 구조이고, GPT-2는 한 방향으로만 글을 이어가며 '생성'에 강한 디코더 구조입니다. 같은 시기 같은 트랜스포머에서 출발했지만 반대 방향을 택한 두 논문입니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>과제 전용 학습 없이 모델 규모만 키워도 새로운 능력이 나타난다는 걸 보여줘, 이후 GPT-3·GPT-4로 이어지는 '스케일링'(모델을 키우면 성능이 오른다는) 연구 흐름의 출발점이 됐다.</li>
+        <li>글 속 문장 패턴으로 과제를 지시하는 방식은 지금 누구나 쓰는 '프롬프트'라는 개념의 뿌리가 됐다.</li>
+        <li>성능이 좋을수록 악용 위험도 함께 커진다는 걸 보여주며, 모델을 단계적으로 공개하는 지금의 책임감 있는 공개 관행에 초기 기준점을 남겼다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>

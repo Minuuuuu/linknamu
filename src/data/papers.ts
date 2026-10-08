@@ -116,4 +116,10 @@ export const papers: PaperItem[] = [
     title: "SAM 2: Segment Anything in Images and Videos",
     file: "/papers/day18-sam2.html",
   },
+  {
+    day: 19,
+    conference: "NeurIPS",
+    title: "GPT-2: Language Models are Unsupervised Multitask Learners",
+    file: "/papers/day19-gpt2.html",
+  },
 ];
