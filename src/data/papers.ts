@@ -122,4 +122,10 @@ export const papers: PaperItem[] = [
     title: "GPT-2: Language Models are Unsupervised Multitask Learners",
     file: "/papers/day19-gpt2.html",
   },
+  {
+    day: 20,
+    conference: "ICML",
+    title: "Learning to (Learn at Test Time): RNNs with Expressive Hidden States",
+    file: "/papers/day20-ttt.html",
+  },
 ];

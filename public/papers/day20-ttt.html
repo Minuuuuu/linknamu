@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 20</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 20 · ICML · 2026.10.09</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">시험 보는 중에도<br>몰래 공부하는 모델이 나왔다</h1>
+      <p class="subline">Learning to (Learn at Test Time): RNNs with Expressive Hidden States · Yu Sun, Xinhao Li, Karan Dalal 등 (Stanford·UC San Diego·UC Berkeley·Meta AI) · ICML 2025</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">ICML '25</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★★★☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">시퀀스 모델링·RNN</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">PaperDigest Top5</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      오늘은 '최신 트렌드' 차례입니다. Day 1 <strong>Attention Is All You Need</strong>의 트랜스포머와 Day 15 <strong>LSTM</strong>의 RNN, 두 계보가 맞붙던 자리에서 나온 논문입니다. ICML 2025에서 발표돼 PaperDigest의 '2025년 가장 영향력 있는 ICML 논문' 상위권에 오른, RNN을 다시 주목받게 만든 아이디어를 소개합니다.
+      <span class="mark">PL·20</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>셀프어텐션은 문맥이 길어지면 계산량이 제곱으로 폭증하고, RNN은 계산량이 선형이지만 고정된 크기의 '은닉 상태' 하나에 모든 정보를 압축해 넣다 보니 문맥이 길어지면 앞 내용을 금방 잊어버린다.</li>
+        <li>저자들은 RNN의 은닉 상태 자체를 <b>작은 학습 모델</b>로 바꾸고, 문장을 한 줄씩 읽어나가는 과정을 그 모델을 매번 업데이트하는 '자기지도학습' 과정으로 재정의했다 — 그래서 이름이 <b>테스트 시점 학습(Test-Time Training, TTT)</b>이다.</li>
+        <li>문맥이 길어질수록 계속 좋아지는 성능과 선형에 가까운 계산량을 동시에 보여주면서, "RNN은 긴 글에 약하다"는 통념을 뒤집고 긴 문맥 처리의 새 대안으로 떠올랐다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>긴 책을 읽고 요약해야 한다고 생각해봅시다. 셀프어텐션 방식은 책의 모든 페이지를 펼쳐놓고 아무 페이지나 다시 들춰볼 수 있게 하는 방법입니다. 정확하지만 페이지가 늘어날수록 책상 위가 기하급수적으로 복잡해집니다(계산량이 문맥 길이의 제곱으로 늘어남). 반대로 기존 RNN 방식은 작은 메모지 한 장에 지금까지 읽은 내용을 계속 요약해서 덮어쓰는 방법입니다. 책상은 안 복잡해지지만, 메모지 크기가 고정돼 있어서 책이 길어지면 앞부분 내용이 뭉개지고 사라집니다.</p>
+        <p>이 논문의 아이디어는 그 '메모지'를 고정된 종이가 아니라 <b>그 자리에서 계속 공부하는 작은 학생</b>으로 바꾸자는 것입니다. 새 문장이 들어올 때마다 이 학생(은닉 상태)에게 "방금 읽은 내용을 가지고 자기 자신을 한 번 더 업데이트해봐"라고 시킵니다. 즉 모델을 다 학습시킨 뒤에 실전 투입하는 게 아니라, 실전(테스트) 중에도 계속 작은 학습을 반복하는 구조입니다. 저자들은 이 학생을 단순한 선형모델로 둔 버전(TTT-Linear)과 작은 2층 신경망으로 둔 버전(TTT-MLP) 두 가지를 만들었고, GPU에서 빠르게 돌아가도록 토큰을 하나씩 말고 묶음(미니배치) 단위로 업데이트하는 계산 방식도 함께 설계했습니다.</p>
+        <p>1.25억~13억 파라미터 규모에서 트랜스포머, 그리고 또 다른 최신 RNN 계열인 Mamba와 비교한 결과, TTT 모델들은 비슷하거나 더 나은 성능을 보였습니다. 특히 문맥이 길어질수록 Mamba는 약 1만 6천 토큰 지점부터 성능 개선이 멈추는 반면, TTT는 그 이후에도 계속 좋아지는 모습을 보였습니다. 속도 면에서도 TTT-Linear는 8천 토큰 문맥에서 이미 트랜스포머보다 빠르고, 최적화를 거치면 Mamba와 비슷한 수준까지 따라붙었습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: Day 15 <b>LSTM</b>을 먼저 보면 좋습니다. '은닉 상태'라는 고정 크기 메모리에 정보를 압축해 넣는다는 RNN의 기본 구조를 알아야, 이 논문이 그 메모리 자체를 왜 '학습하는 모델'로 바꿨는지 이해가 쉽습니다.</li>
+        <li><b>같이 보면 좋은 논문</b>: Day 1 <b>Attention Is All You Need</b>와 비교해보세요. 셀프어텐션은 모든 과거 정보를 그대로 들고 다니는 대신 계산량이 제곱으로 늘고, TTT는 계산량을 선형으로 유지하는 대신 정보를 작은 학습 모델에 압축합니다. 같은 문제(긴 문맥)를 반대 방향에서 푼 두 접근입니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>트랜스포머 이후 한동안 밀려나 있던 RNN 계열 연구를, '테스트 중 학습'이라는 새로운 축으로 다시 경쟁력 있게 만들었다.</li>
+        <li>문맥이 길어져도 계산량이 선형으로 유지되면서 성능까지 꾸준히 오른다는 걸 보여줘, 아주 긴 문서나 대화를 다뤄야 하는 실무 모델 설계에 구체적인 대안을 제시했다.</li>
+        <li>'학습'과 '추론(테스트)'의 경계를 흐리는 시도로서, 이후 추론 시점에도 모델이 스스로 적응하는 연구 흐름(테스트 시점 적응·학습)에 영향을 주고 있다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>
