@@ -128,4 +128,10 @@ export const papers: PaperItem[] = [
     title: "Learning to (Learn at Test Time): RNNs with Expressive Hidden States",
     file: "/papers/day20-ttt.html",
   },
+  {
+    day: 21,
+    conference: "ICLR",
+    title: "Auto-Encoding Variational Bayes (VAE)",
+    file: "/papers/day21-vae.html",
+  },
 ];
