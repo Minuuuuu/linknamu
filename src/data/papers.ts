@@ -134,4 +134,10 @@ export const papers: PaperItem[] = [
     title: "Auto-Encoding Variational Bayes (VAE)",
     file: "/papers/day21-vae.html",
   },
+  {
+    day: 22,
+    conference: "NeurIPS",
+    title: "Why Diffusion Models Don't Memorize: The Role of Implicit Dynamical Regularization in Training",
+    file: "/papers/day22-diffusion-memorize.html",
+  },
 ];
