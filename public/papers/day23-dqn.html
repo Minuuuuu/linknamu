@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 23</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 23 · ICML · 2026.10.14</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">설명서 한 장 없이<br>화면만 보고 고수가 됐다</h1>
+      <p class="subline">Playing Atari with Deep Reinforcement Learning → Human-level control through deep reinforcement learning (DQN) · Volodymyr Mnih et al. (DeepMind) · NeurIPS 2013 워크숍 → Nature 2015</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">Nature '15</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★★★☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">강화학습</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">아타리 49종 섭렵</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      오늘은 '기초' 차례입니다. 딥러닝과 강화학습을 하나로 묶어 '딥RL(Deep RL)'이라는 분야를 열어젖힌 <strong>DQN(Deep Q-Network)</strong>을 소개합니다. 게임 규칙을 사람이 알려주지 않아도, 화면 속 점수만 보고 스스로 플레이법을 깨친 AI 이야기입니다.
+      <span class="mark">PL·23</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>게임마다 규칙이 다른데, 사람이 일일이 "이럴 땐 이렇게 해"라고 알려주지 않고도 AI가 화면 픽셀만 보고 스스로 전략을 깨칠 수 있을까?</li>
+        <li>저자들은 <b>강화학습(시행착오로 점수를 높이는 법을 배우는 방식)</b>에 <b>CNN(이미지에서 패턴을 읽어내는 신경망)</b>을 결합하고, 학습이 흔들리지 않도록 <b>경험 리플레이</b>와 <b>목표망 고정</b>이라는 두 안정화 장치를 더했다.</li>
+        <li>단 하나의 알고리즘·설정으로 49종의 아타리 게임을 모두 플레이해, 전문 게임 테스터와 맞먹는 수준에 도달했다 — 딥러닝과 강화학습을 결합한 최초의 범용 학습 사례다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>설명서 없이 처음 보는 게임을 손에 쥐었다고 생각해보세요. 어떤 버튼이 뭘 하는지도 모른 채, 일단 눌러보고 점수가 오르면 "아 이게 좋은 거구나" 하고 감을 잡아갑니다. DQN이 하는 일이 정확히 이겁니다. 입력은 오직 화면 픽셀, 출력은 "이 상황에서 어떤 버튼을 누를까"이고, 점수가 오르면 보상을 줍니다. 원래 강화학습은 "이 상황에서 이 행동이 얼마나 좋은가"를 표처럼 정리해두는 Q-러닝으로 풀리는데, 가능한 화면의 경우의 수가 무한에 가까워 표를 만들 수가 없습니다. 그래서 그 표 역할을 CNN이라는 신경망이 대신하도록 만든 것이 DQN의 출발점입니다.</p>
+        <p>그런데 이렇게만 학습시키면 금방 흔들립니다. 바로 직전 몇 초의 장면만 보고 계속 배우면, 마치 방금 푼 문제만 복습하는 학생처럼 편향된 감각이 생기기 때문입니다. 저자들은 두 가지 장치로 이를 잡았습니다. 첫째는 <b>경험 리플레이</b> — 과거의 장면들을 '일기장'처럼 저장해두고, 무작위로 뒤섞어 꺼내 복습하게 해서 학습을 고르게 만드는 방법입니다. 둘째는 <b>목표망 고정</b> — "얼마나 잘했는지" 판단하는 기준(목표)을 매 순간 바꾸지 않고 한동안 얼어붙혀 둔 뒤 가끔씩만 갱신하는 방법으로, 기준이 계속 움직이면 자기 꼬리를 쫓는 꼴이 되는 걸 막아줍니다. 이 목표망은 2015년 네이처판에서 추가된 핵심 보완점이었습니다.</p>
+        <p>결과는 분명했습니다. 2013년 첫 버전은 7개 게임 중 6개에서 기존 방법을 앞섰고 3개에서는 인간 숙련자를 넘어섰습니다. 2015년 네이처판에서는 게임마다 신경망 구조나 설정을 전혀 바꾸지 않은 채 49개 게임 전체에 적용했는데, 전문 게임 테스터와 맞먹는 수준에 도달했고 43개 게임에서 기존 머신러닝 방법들을 앞섰습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: 강화학습의 기본 틀(상태·행동·보상을 주고받으며 점수를 최대화하는 법을 배우는 과정)과 CNN이 이미지에서 패턴을 뽑아내는 원리를 알면 훨씬 수월하게 읽힙니다.</li>
+        <li><b>같이 보면 좋은 논문</b>: Day 11 <b>ResNet</b>(CNN이 깊어지며 이미지 인식 능력이 어떻게 발전했는지를 다뤄, DQN이 빌려 쓴 '이미지를 읽는 신경망'의 뒷이야기를 보여줍니다). DQN은 '가치 기반' 강화학습의 대표주자인데, 이후 등장한 '정책 기반' 계열(PPO 등)과 비교해보면 강화학습 전체 지형이 더 잘 보입니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>딥러닝과 강화학습을 결합한 '딥RL' 분야를 실질적으로 출범시킨 논문으로, 이후 DeepMind의 AlphaGo·AlphaZero를 비롯한 후속 연구 전체의 토대가 됐다.</li>
+        <li>게임마다 다른 신경망을 새로 설계할 필요 없이, 동일한 구조와 하이퍼파라미터로 서로 다른 과제를 풀어낼 수 있음을 처음 실증해, '범용 학습 에이전트'라는 목표에 구체적인 증거를 제시했다.</li>
+        <li>경험 리플레이와 목표망 고정은 지금도 수많은 강화학습 알고리즘에서 기본 구성 요소로 쓰이는, 세대를 건너 살아남은 아이디어다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>

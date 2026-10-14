@@ -140,4 +140,10 @@ export const papers: PaperItem[] = [
     title: "Why Diffusion Models Don't Memorize: The Role of Implicit Dynamical Regularization in Training",
     file: "/papers/day22-diffusion-memorize.html",
   },
+  {
+    day: 23,
+    conference: "ICML",
+    title: "Human-level control through deep reinforcement learning (DQN)",
+    file: "/papers/day23-dqn.html",
+  },
 ];
