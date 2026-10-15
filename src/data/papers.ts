@@ -146,4 +146,10 @@ export const papers: PaperItem[] = [
     title: "Human-level control through deep reinforcement learning (DQN)",
     file: "/papers/day23-dqn.html",
   },
+  {
+    day: 24,
+    conference: "ICLR",
+    title: "AlphaEdit: Null-Space Constrained Model Editing for Language Models",
+    file: "/papers/day24-alphaedit.html",
+  },
 ];

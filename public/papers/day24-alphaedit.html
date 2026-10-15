@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 24</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 24 · ICLR · 2026.10.15</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">오타 하나 고치려다<br>책 한 권을 다 고쳐 썼다</h1>
+      <p class="subline">AlphaEdit: Null-Space Constrained Model Editing for Language Models · Junfeng Fang et al. (USTC·NUS) · ICLR 2025 Outstanding Paper</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">ICLR '25</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★★☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">지식 편집</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">Outstanding Paper</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      오늘은 '최신 트렌드' 차례입니다. ICLR 2025에서 <strong>Outstanding Paper</strong>로 뽑힌 <strong>AlphaEdit</strong>을 소개합니다. "AI 모델이 알고 있는 사실 하나를 고치면, 왜 멀쩡한 다른 지식까지 망가질까?"라는 꽤 실용적인 질문에서 출발한 논문입니다.
+      <span class="mark">PL·24</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>LLM에 박힌 오래된 지식 한 줄(예: "회사 대표는 A다")을 새 사실로 고치려 하면, 그 수정이 번져서 전혀 관련 없는 다른 지식까지 틀어지는 부작용이 있다.</li>
+        <li>저자들은 수정값을 곧바로 모델에 더하지 않고, <b>지켜야 할 지식에 전혀 영향을 주지 않는 방향(널 스페이스)</b>으로만 한 번 걸러서(투영해서) 반영하는 방법을 제안했다. 기존 편집 기법에 코드 한 줄만 끼워 넣으면 된다.</li>
+        <li>LLaMA3·GPT2-XL·GPT-J에서 기존 편집 기법들의 평균 성능을 36.7% 끌어올려, "지식을 고치되 부작용은 없는" 방법에 한 걸음 다가섰다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>아주 두꺼운 백과사전이 있다고 생각해보세요. "어느 팀 소속 선수"라는 항목 하나가 바뀌어서 그 한 줄만 고치고 싶은데, 편집자가 손을 대는 순간 옆 페이지의 다른 선수 기록, 심지어 전혀 다른 챕터의 역사 연표까지 슬쩍 틀어져 버립니다. LLM 안의 지식도 이런 식으로 저장돼 있습니다. 사실 하나하나가 따로 분리된 서랍에 담겨 있는 게 아니라, 수많은 가중치(파라미터)에 뒤섞여 겹쳐 있기 때문에, ROME나 MEMIT 같은 기존 '찾아서 고치기(locate-then-edit)' 방식으로 한 지점을 바꾸면 그 여파가 다른 지식이 저장된 자리까지 흘러 들어갑니다.</p>
+        <p>AlphaEdit의 해법은 "고치기 전에 한 번 걸러낸다"는 아이디어입니다. 수학적으로는 <b>널 스페이스(null space) 투영</b>이라 부르는데, 쉽게 비유하면 이런 느낌입니다 — 지켜야 할 기존 지식들이 모여 있는 '안전 구역의 방향'을 미리 계산해두고, 새 지식을 반영할 때 그 수정 신호 중 안전 구역 방향으로 향하는 성분은 깎아내고 나머지 방향으로만 흘려보내는 겁니다. 그러면 수정이 적용된 뒤에도 안전 구역(보존해야 할 지식)에는 이론적으로 거의 흔들림이 생기지 않습니다. 기존 방법들이 "최대한 덜 건드리자"는 느슨한 목표로 접근했던 것과 달리, 애초에 건드리는 방향 자체를 걸러낸다는 점이 다릅니다. 게다가 이 필터는 기존 편집 알고리즘(MEMIT 등) 위에 코드 한 줄을 추가하는 수준으로 끼워 넣을 수 있어, 모델을 다시 학습시키지 않고도 바로 적용됩니다.</p>
+        <p>실제로 LLaMA3, GPT2-XL, GPT-J 세 모델에 이 투영 장치를 더해 테스트한 결과, 기존 '찾아서 고치기' 계열 방법들 대비 평균 36.7%의 성능 향상이 나타났다고 저자들은 보고합니다(최고 성능 기존 방법인 MEMIT 대비 수치). 특히 한 번에 수천 건의 지식을 연속으로 고치는 대량 편집 상황에서, 기존 방법들은 편집 수가 늘수록 모델이 점점 망가지는 경향을 보였지만 AlphaEdit은 그 붕괴를 상당히 늦췄다는 점이 핵심 성과입니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: 트랜스포머 기반 언어모델이 사실을 어떻게 파라미터 안에 저장하는지에 대한 기본 그림(Day 1 <b>Attention Is All You Need</b>, Day 19 <b>GPT-2</b>)을 알면 "지식을 고친다"는 말이 구체적으로 뭘 뜻하는지 이해하기 쉽습니다.</li>
+        <li><b>같이 보면 좋은 논문</b>: AlphaEdit은 ROME·MEMIT 같은 '찾아서 고치기' 계열 지식 편집 연구 위에 얹힌 보완 장치입니다. "모델을 고치지 않고 검색으로 최신 정보를 넣는" RAG 계열 접근과 비교해보면, 지식을 다루는 두 가지 다른 철학이 보입니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>LLM을 전부 재학습하지 않고도 최신 정보로 업데이트하려는 '지식 편집' 연구에, "부작용을 억제한다"는 구체적이고 검증 가능한 해법을 제시했다.</li>
+        <li>기존 편집 기법 위에 코드 한 줄 수준으로 덧붙일 수 있는 범용 보완 장치라서, 실무에서 바로 가져다 쓸 수 있는 실용성이 높다는 점이 ICLR 심사위원단의 주목을 받았다.</li>
+        <li>대량 편집에서도 성능 붕괴를 늦췄다는 결과는, 앞으로 LLM을 서비스에 올려둔 채 지식을 꾸준히 갈아끼우는 운영 방식에 실질적인 힌트를 준다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>
