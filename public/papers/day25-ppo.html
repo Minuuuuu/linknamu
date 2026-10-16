@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 25</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 25 · NeurIPS · 2026.10.16</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">크게 한 걸음 내딛는 대신<br>작게, 그러나 꾸준히 나아갔다</h1>
+      <p class="subline">Proximal Policy Optimization Algorithms (PPO) · John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, Oleg Klimov (OpenAI) · arXiv 2017</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">arXiv '17</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★★★☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">강화학습</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">RLHF 핵심 알고리즘</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      오늘은 '기초' 차례입니다. Day 23 DQN에서 잠깐 언급했던 '정책 기반' 강화학습의 대표주자, <strong>PPO(Proximal Policy Optimization)</strong>를 소개합니다. 지금도 OpenAI가 기본으로 쓰는 강화학습 알고리즘이자, ChatGPT를 사람 선호에 맞춰 조정하는 RLHF 단계에서도 핵심 역할을 하는 방법입니다.
+      <span class="mark">PL·25</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>강화학습에서 정책을 한 번에 너무 크게 업데이트하면 성능이 와르르 무너질 수 있는데, 기존 해법인 TRPO는 이를 막기 위해 매번 복잡한 2차 미분 계산을 해야 해서 구현과 확장이 어려웠다.</li>
+        <li>저자들은 새 정책이 기존 정책에서 얼마나 달라졌는지를 나타내는 비율(ratio)을 <b>일정 범위로 '클리핑'(잘라내기)</b>하는 간단한 트릭 하나로 TRPO의 안전장치를 대신했다. 1차 미분만으로 계산되어 구현이 훨씬 쉬워졌다.</li>
+        <li>구현이 쉬우면서도 TRPO급 안정성을 낸다는 점이 입증되면서 OpenAI의 기본 강화학습 알고리즘이 됐고, 이후 OpenAI Five의 Dota 2 플레이부터 오늘날 LLM을 사람 선호에 맞추는 RLHF 학습까지 폭넓게 쓰이는 표준 도구로 자리잡았다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>운전을 배울 때 핸들을 홱 꺾으면 어떻게 될까요? 방향은 바뀌지만 차가 휘청거리다 사고가 날 수도 있습니다. 강화학습에서 정책(어떤 상황에서 어떤 행동을 할지 정하는 규칙)을 업데이트하는 것도 비슷합니다. 한 번에 너무 크게 바꾸면 운 좋게 더 좋아질 수도 있지만, 운이 나쁘면 그동안 어렵게 배운 좋은 습관이 한꺼번에 무너져서 처음부터 다시 배워야 합니다. 이 문제를 먼저 풀어보려 한 TRPO(Trust Region Policy Optimization)는 "매 걸음마다 안전한 반경 안에서만 움직이자"는 아이디어였는데, 그 안전 반경을 정확히 계산하려면 매번 복잡한 2차 미분(커브의 휘어진 정도를 계산하는 것)이 필요해서, 마치 한 걸음 옮길 때마다 정밀 지도를 새로 그리는 것처럼 느리고 다루기 번거로웠습니다.</p>
+        <p>PPO는 "정밀 지도를 그리는 대신, 그냥 속도 제한 표지판을 세우자"는 쪽으로 방향을 틀었습니다. 구체적으로는, 새 정책이 특정 행동을 고를 확률과 예전 정책이 그 행동을 고를 확률의 비율을 계산하고, 이 비율이 1에서 너무 멀어지면(예: 1.2를 넘거나 0.8보다 작아지면) 그 이상의 변화는 학습 신호에 반영하지 않도록 잘라버립니다(클리핑). 비율이 허용 범위 안에 있을 때만 "조금 더 이 방향으로 가도 좋다"는 신호가 온전히 전달되는 셈이라, 자연스럽게 한 번의 업데이트가 너무 크게 튀는 것을 막아줍니다. 이 방식은 복잡한 2차 미분 없이 1차 미분만으로 계산되기 때문에 구현이 훨씬 단순하고, 같은 경험 데이터를 여러 번 재사용해 학습할 수 있어 데이터를 더 효율적으로 씁니다.</p>
+        <p>저자들은 아타리 게임과 로봇 팔·보행 로봇 같은 연속 동작 제어(MuJoCo) 과제들에서 PPO를 TRPO, A2C 등 기존 방법들과 비교했는데, 클리핑을 적용한 버전이 여러 변형 중 가장 좋은 성능을 보였다고 보고합니다. 복잡한 계산 없이도 TRPO 수준 이상의 안정성과 성능을 냈다는 점이 핵심이며, 이 "쉽고 잘 되는" 특성 덕분에 PPO는 이후 OpenAI의 기본 강화학습 알고리즘이 됐습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: 강화학습의 기본 틀(상태·행동·보상을 주고받으며 점수를 최대화하는 법을 배우는 과정)과 '정책'이 무엇인지 알면 훨씬 수월하게 읽힙니다.</li>
+        <li><b>같이 보면 좋은 논문</b>: Day 23 <b>DQN</b>(가치 기반 강화학습의 대표주자)과 짝지어 보면, 강화학습의 두 큰 줄기인 '가치 기반'과 '정책 기반'이 한눈에 비교됩니다. PPO는 이후 LLM을 사람의 선호에 맞게 조정하는 RLHF(인간 피드백 기반 강화학습)의 핵심 도구로도 이어집니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>복잡한 2차 미분 계산 없이도 TRPO급 안정성을 낼 수 있음을 보여, 강화학습 알고리즘을 "구현하기 쉽고 실제로 잘 작동하는" 실용적인 방향으로 이끌었다.</li>
+        <li>구현 단순성과 안정성 덕분에 OpenAI의 기본 강화학습 알고리즘으로 자리잡았고, 256개의 GPU와 자가 대전 학습을 결합한 OpenAI Five의 Dota 2 플레이 같은 대규모 학습에도 그대로 확장됐다.</li>
+        <li>오늘날 ChatGPT를 비롯한 LLM을 사람의 선호에 맞춰 조정하는 RLHF 파이프라인에서 정책을 업데이트하는 핵심 알고리즘으로 쓰이며, 딥러닝 시대 강화학습의 실질적인 표준으로 남아 있다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>

@@ -152,4 +152,10 @@ export const papers: PaperItem[] = [
     title: "AlphaEdit: Null-Space Constrained Model Editing for Language Models",
     file: "/papers/day24-alphaedit.html",
   },
+  {
+    day: 25,
+    conference: "NeurIPS",
+    title: "Proximal Policy Optimization Algorithms (PPO)",
+    file: "/papers/day25-ppo.html",
+  },
 ];
