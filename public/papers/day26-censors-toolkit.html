@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>페이퍼레터 Day 26</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper-bg:#ffffff;
+    --page-bg:#f4efec;
+    --ink:#2a2224;
+    --ink-soft:#9c8f8c;
+    --ink-faint:#c9bdb8;
+    --accent:#e8412f;
+    --accent-deep:#c4301f;
+    --accent-tint:#fdeeeb;
+    --line:#f0d3cd;
+    --shadow: 0 20px 50px -30px rgba(196,48,31,0.35);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper-bg:#1d1516;
+      --page-bg:#120d0e;
+      --ink:#f3e8e5;
+      --ink-soft:#b39d98;
+      --ink-faint:#6b524d;
+      --accent:#ff6b52;
+      --accent-deep:#ff8a72;
+      --accent-tint:#3a201c;
+      --line:#4d2e29;
+      --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper-bg:#1d1516;
+    --page-bg:#120d0e;
+    --ink:#f3e8e5;
+    --ink-soft:#b39d98;
+    --ink-faint:#6b524d;
+    --accent:#ff6b52;
+    --accent-deep:#ff8a72;
+    --accent-tint:#3a201c;
+    --line:#4d2e29;
+    --shadow: 0 20px 50px -30px rgba(0,0,0,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    display:flex;
+    justify-content:center;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:var(--paper-bg);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 24px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .top-meta{ display:flex; justify-content:flex-end; }
+  .top-meta span{ font-size:11px; color:var(--ink-soft); letter-spacing:0.02em; }
+
+  .brand-block{ display:flex; flex-direction:column; gap:8px; }
+  .brand-name{
+    font-size:12px; font-weight:600; letter-spacing:0.28em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .headline{
+    font-size:25px; font-weight:800; line-height:1.34;
+    color:var(--accent); text-wrap:balance; margin:0;
+  }
+  .subline{ font-size:13px; color:var(--ink-soft); margin:0; }
+
+  .metric-box{
+    background:var(--accent-tint); border-radius:14px; padding:18px 12px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;
+  }
+  .metric{ display:flex; flex-direction:column; gap:4px; }
+  .metric .label{ font-size:10.5px; color:var(--ink-soft); letter-spacing:0.02em; }
+  .metric .value{
+    font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums;
+    font-size:13px; font-weight:700; color:var(--accent-deep);
+  }
+
+  .intro{ position:relative; font-size:14.5px; line-height:1.7; color:var(--ink); padding-bottom:14px; }
+  .intro strong{ color:var(--accent-deep); }
+  .intro .mark{
+    position:absolute; right:0; bottom:0; font-size:10px; font-weight:700;
+    color:var(--ink-faint); letter-spacing:0.1em;
+  }
+
+  .summary-box{ border:1.5px dashed var(--line); border-radius:14px; padding:18px 18px 16px; }
+  .summary-head{
+    display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700;
+    color:var(--accent-deep); margin-bottom:12px;
+  }
+  .summary-box ol{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:9px; }
+  .summary-box li{ font-size:13.5px; line-height:1.6; color:var(--ink); }
+  .summary-box b{ color:var(--accent-deep); }
+
+  .section{ display:flex; flex-direction:column; gap:10px; }
+  .pill{
+    align-self:center; background:var(--accent); color:#fff; font-size:13px;
+    font-weight:700; padding:8px 20px; border-radius:999px; letter-spacing:0.01em;
+  }
+  .section-body{ font-size:13.5px; line-height:1.75; color:var(--ink); }
+  .section-body p{ margin:0 0 10px; }
+  .section-body p:last-child{ margin-bottom:0; }
+  .section-body b{ color:var(--accent-deep); }
+
+  .subsec-title{
+    display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700;
+    color:var(--ink); background:var(--accent-tint); padding:9px 12px; border-radius:8px;
+  }
+  .bullets{ margin:2px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .bullets li{ font-size:13.5px; line-height:1.65; color:var(--ink); }
+  .bullets b{ color:var(--accent-deep); }
+
+  .footer{
+    text-align:center; font-size:10.5px; color:var(--ink-faint);
+    letter-spacing:0.04em; padding-top:4px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+
+    <div class="top-meta"><span>Day 26 · ICML · 2026.10.19</span></div>
+
+    <div class="brand-block">
+      <div class="brand-name">PAPERLETTER</div>
+      <h1 class="headline">AI를 착하게 만드는 기술이<br>누군가에겐 입막음 도구가 될 수 있다</h1>
+      <p class="subline">Position: The Alignment Community is Unintentionally Building a Censor's Toolkit · Sarah Ball, Phil Hackemann · ICML 2026 (Outstanding Position Paper Award)</p>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric">
+        <span class="label">학회·연도</span>
+        <span class="value">ICML '26</span>
+      </div>
+      <div class="metric">
+        <span class="label">난이도</span>
+        <span class="value">★★☆☆☆</span>
+      </div>
+      <div class="metric">
+        <span class="label">카테고리</span>
+        <span class="value">AI 안전·윤리</span>
+      </div>
+      <div class="metric">
+        <span class="label">비고</span>
+        <span class="value">갓 수상·따끈따끈</span>
+      </div>
+    </div>
+
+    <div class="intro">
+      오늘은 '최신 트렌드' 차례입니다. 지난 7월 서울에서 열린 ICML 2026에서 Outstanding Position Paper Award를 받은 따끈따끈한 논문을 소개합니다. 새 알고리즘이나 실험 결과가 아니라, AI 안전성 연구 전체에 던지는 질문 하나로 상을 받은 '포지션 페이퍼(position paper, 주장 논문)'입니다.
+      <span class="mark">PL·26</span>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-head">📌 오늘의 논문 세 줄 요약</div>
+      <ol>
+        <li>AI가 위험하거나 해로운 말을 하지 못하게 막는 '정렬(alignment)' 기술—학습 데이터 걸러내기, 인간 피드백으로 길들이기(RLHF), 답변 나가기 전 검열기 돌리기—은 원래 선한 목적으로 만들어졌지만, 이 기술들이 실제로는 "무엇을 금지할지"를 정하는 쪽의 의도를 그대로 따르는 도구라는 사실은 잘 논의되지 않았다.</li>
+        <li>저자들은 이 세 가지 정렬 기법이 전부 <b>목적을 가리지 않는(purpose-agnostic) 도구</b>라고 짚는다. 폭탄 제조법을 막던 바로 그 필터링·RLHF·검열기 파이프라인을, 손에 쥔 사람이 누구냐에 따라 특정 역사적 사실이나 정치적 발언을 막는 데도 똑같이 쓸 수 있다는 것이다.</li>
+        <li>저자들은 정렬 연구를 그만두자는 게 아니라, AI 채택 속도·소수 기업의 통제력 집중·권위주의로 기울어지는 정치 지형 때문에 이 위험이 지금 특히 커지고 있다며, 정보 억제와 정치적 편향을 독립적으로 측정할 표준 벤치마크가 필요하다고 제안한다.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <div class="pill">🔴 핵심 브리핑</div>
+      <div class="section-body">
+        <p>자물쇠를 생각해 봅시다. 내 집 현관에 달면 도둑을 막아주는 안전장치지만, 누군가를 가두는 감옥 문에 달리면 전혀 다른 물건이 됩니다. 자물쇠 자체는 선하지도 악하지도 않고, 누가 어디에 다느냐가 그 쓰임을 정합니다. 이 논문은 AI를 "착하게" 만드는 정렬 기술도 똑같다고 말합니다. AI 회사들은 챗봇이 폭탄 제조법이나 자살 방법 같은 위험한 답을 내놓지 못하게 하려고 세 가지 장치를 씁니다. 학습 데이터에서 유해한 내용을 미리 걸러내는 '사전학습 필터링', 사람이 좋은 답과 나쁜 답에 점수를 매겨 모델을 길들이는 'RLHF(인간 피드백 기반 강화학습)', 그리고 답변이 나가기 직전에 한 번 더 검사하는 '추론 단계 검열기'입니다.</p>
+        <p>문제는 이 셋이 전부 "무엇이 나쁜 답인가"를 외부에서 정해줘야 작동하는 도구라는 점입니다. 가위처럼요. 가위는 종이를 자르는 데도, 전혀 다른 용도로도 쓸 수 있고, 그 차이는 가위를 쥔 사람의 의도에 달려 있습니다. 폭탄 제조법을 막던 바로 그 파이프라인에, "이 정치인에 대한 비판"이나 "이 역사적 사건"을 위험한 내용 목록에 슬쩍 끼워 넣으면, 모델은 똑같이 얌전한 얼굴로 그 내용을 말하지 않게 됩니다. 사용자 입장에서는 AI가 정말 위험해서 답을 피했는지, 누군가에게 불편한 진실이라서 막혔는지 구별할 방법이 거의 없습니다. 저자들은 이 지점을 "선의로 만든 안전장치가, 알아차리지 못한 사이에 검열 도구 세트(censor's toolkit)로 넘어갈 수 있다"고 표현합니다.</p>
+        <p>저자들이 이 경고를 지금 꺼내는 이유로 세 가지를 듭니다. 첫째, 사람들이 정보를 찾을 때 AI에 의존하는 속도가 매우 빨라지고 있다는 점, 둘째, 이 정렬 파이프라인을 실제로 쥐고 있는 주체가 소수의 거대 기업·국가로 좁혀져 있다는 경제적 비대칭, 셋째, 여러 지역에서 정치 지형이 권위주의 쪽으로 기울고 있다는 점입니다. 다만 저자들은 "정렬 연구를 멈추자"는 주장은 아니라고 분명히 못박습니다. 정렬은 여전히 필요하다고 인정하면서, 대신 정보 억제와 정치적 편향을 좌우 스펙트럼뿐 아니라 권위주의적 경향까지 포함해 독립적이고 표준화된 방식으로 측정할 벤치마크를 지금 만들어 두자고 제안합니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🗓 함께 보면 좋은 논문·선수지식</div>
+      <ul class="bullets">
+        <li><b>선수지식</b>: RLHF(인간 피드백 기반 강화학습)가 무엇인지 알면 핵심 주장이 바로 이해됩니다. Day 25 <b>PPO</b>가 바로 그 RLHF 단계에서 쓰이는 알고리즘입니다.</li>
+        <li><b>같이 보면 좋은 논문</b>: Day 12 <b>"Safety Alignment Should Be Made More Than Just a Few Tokens Deep"</b>과 짝지어 보면 좋습니다. 그 논문은 "정렬이 얼마나 쉽게 뚫리는가"를 보여줬고, 이 논문은 "정렬이 얼마나 쉽게 악용될 수 있는가"를 짚습니다. AI 안전성 논의의 두 얼굴을 함께 볼 수 있습니다.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="subsec-title">🔥 왜 중요한가</div>
+      <ul class="bullets">
+        <li>새 알고리즘이나 실험 수치가 아니라 '질문 하나'로 ICML의 최고 영예 중 하나를 받으며, AI 안전 커뮤니티 안에서도 "우리는 항상 선한 일을 하고 있다"는 전제를 다시 점검하게 만든 계기가 됐다.</li>
+        <li>'유해 발언 방지'라는 명분으로 들어선 필터링·RLHF·검열기 파이프라인이 그대로 정보 통제나 정치적 편향 주입에 쓰일 수 있다는 구체적 경로를 제시하며, AI 거버넌스 논의에 새로운 평가 축(정보 억제·정치적 편향 벤치마크)을 제안했다.</li>
+        <li>"정렬을 그만두자"가 아니라 "우리가 만들고 있는 도구가 누구 손에 들어갈지 다시 보자"는 톤을 취해, 이후 정렬 기술에 대한 투명성·외부 감사 요구가 커지는 흐름에 근거를 더했다.</li>
+      </ul>
+    </div>
+
+    <div class="footer">PAPERLETTER · 매일 논문 한 편, 부담 없이</div>
+  </div>
+</body>
+</html>

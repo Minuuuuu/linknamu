@@ -158,4 +158,11 @@ export const papers: PaperItem[] = [
     title: "Proximal Policy Optimization Algorithms (PPO)",
     file: "/papers/day25-ppo.html",
   },
+  {
+    day: 26,
+    conference: "ICML",
+    title:
+      "Position: The Alignment Community is Unintentionally Building a Censor's Toolkit",
+    file: "/papers/day26-censors-toolkit.html",
+  },
 ];
