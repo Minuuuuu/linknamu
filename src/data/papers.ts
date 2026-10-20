@@ -165,4 +165,10 @@ export const papers: PaperItem[] = [
       "Position: The Alignment Community is Unintentionally Building a Censor's Toolkit",
     file: "/papers/day26-censors-toolkit.html",
   },
+  {
+    day: 27,
+    conference: "ICLR",
+    title: "Improving Language Understanding by Generative Pre-Training (GPT-1)",
+    file: "/papers/day27-gpt1.html",
+  },
 ];
