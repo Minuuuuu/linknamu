@@ -171,4 +171,10 @@ export const papers: PaperItem[] = [
     title: "Improving Language Understanding by Generative Pre-Training (GPT-1)",
     file: "/papers/day27-gpt1.html",
   },
+  {
+    day: 28,
+    conference: "NeurIPS",
+    title: "Superposition Yields Robust Neural Scaling",
+    file: "/papers/day28-superposition-scaling.html",
+  },
 ];
